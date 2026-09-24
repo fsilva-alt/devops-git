@@ -7,9 +7,11 @@ Todos os desafios de 1 a 13 começam com `cd ~/labs/NN-nome`.
 ## Desafio 0 — Configure sua identidade
 
 ```bash
-git config --global user.name "Seu Nome"
-git config --global user.email seu-email@exemplo.com
+git config --global user.name "<seu nome de verdade>"
+git config --global user.email <e-mail da sua conta GitHub>
 ```
+
+A verificação recusa nomes e e-mails de exemplo (`Fulano`, `Seu Nome`, `voce@…`, `@exemplo.*`): copiar e colar sem trocar os valores **reprova** de propósito.
 
 ## Desafio 1 — Meu primeiro repositório
 

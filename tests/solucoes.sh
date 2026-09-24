@@ -113,11 +113,14 @@ passo "Desafio 00 — Configure sua identidade"
 reprova 00 vazio "user.name não está configurado"
 git config --global user.name "Fulano de Tal"
 git config --global user.email fulanodetal@exemplo.pt
-reprova 00 "errado (exemplo do enunciado)" "ainda é o exemplo"
+reprova 00 "errado (exemplo do enunciado)" "ainda é um exemplo"
+git config --global user.name "Seu Nome"
+git config --global user.email voce@exemplo.com
+reprova 00 "errado (placeholder genérico)" "ainda é um exemplo"
 git config --global user.name "Aluna Teste"
 git config --global user.email "aluna-sem-arroba"
 reprova 00 "errado (e-mail inválido)" "não parece um e-mail"
-git config --global user.email aluna@exemplo.com
+git config --global user.email aluna.teste@gmail.com
 aprova 00 certo
 
 # ---------------------------------------------------------------------------

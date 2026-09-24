@@ -10,6 +10,24 @@ Dizer ao Git quem você é. Cada commit carrega o nome e o e-mail de quem o fez,
 
 Em qualquer pasta. A configuração é **global**, ou seja, vale para todos os repositórios deste Codespace.
 
+## Os três níveis de configuração
+
+O Git lê a mesma configuração em três arquivos diferentes. Do mais abrangente para o mais específico:
+
+| Nível | Arquivo | Vale para | Quando usar |
+|---|---|---|---|
+| `--system` | `/etc/gitconfig` | **Todos os usuários** da máquina | Quase nunca; precisa de `sudo` |
+| `--global` | `~/.gitconfig` | Todos os repositórios **do seu usuário** | O normal — é o que vamos usar |
+| `--local` | `.git/config` do repositório | **Só aquele repositório** | Quando um projeto precisa de outra identidade (e-mail do trabalho, por exemplo) |
+
+O mais específico vence: se você definir `user.email` nos três, o `--local` é o que assina o commit daquele repositório.
+
+Para descobrir de onde veio cada valor:
+
+```bash
+git config --list --show-origin
+```
+
 ## Tarefa
 
 1. Configure seu nome (use o seu, não o do exemplo):
@@ -44,6 +62,20 @@ Em qualquer pasta. A configuração é **global**, ou seja, vale para todos os r
 check.sh 00
 ```
 
+A verificação **recusa** nomes e e-mails de exemplo (`Fulano de Tal`, `Seu Nome`, `voce@…`, qualquer `@exemplo.*`). Copiar e colar sem trocar os valores reprova de propósito: quem assina os commits é você.
+
 ## Dica
 
 Se errar alguma coisa, é só rodar o comando de novo com o valor certo. O último vence.
+
+## Missão extra
+
+Entre em qualquer pasta com repositório e rode:
+
+```bash
+git config --local user.email outro@exemplo.com
+git config user.email          # sem nível: mostra o valor que vale ali
+git config --global user.email # continua o seu
+```
+
+Viu o `--local` ganhar? Desfaça com `git config --local --unset user.email`.

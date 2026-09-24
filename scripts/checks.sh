@@ -49,17 +49,21 @@ verificar_00() {
   email="$(git config --global --get user.email || true)"
 
   if [[ -z "$nome" ]]; then
-    falhar "user.name não está configurado." 'git config --global user.name "Seu Nome"'
-  elif [[ "${nome,,}" == *"fulano"* ]]; then
-    falhar "user.name ainda é o exemplo do enunciado ('$nome')." "Use o seu nome de verdade."
+    falhar "user.name não está configurado." \
+      'git config --global user.name "<seu nome completo>"'
+  elif [[ "${nome,,}" == *"fulano"* || "${nome,,}" == *"seu nome"* || "${nome,,}" == *"beltrano"* || "${nome,,}" == *"sicrano"* ]]; then
+    falhar "user.name ainda é um exemplo ('$nome')." \
+      "Use o seu nome de verdade: é ele que vai assinar cada commit."
   fi
 
   if [[ -z "$email" ]]; then
-    falhar "user.email não está configurado." 'git config --global user.email voce@exemplo.com'
-  elif [[ "$email" != *@* ]]; then
+    falhar "user.email não está configurado." \
+      'git config --global user.email <e-mail da sua conta GitHub>'
+  elif [[ "$email" != *@*.* ]]; then
     falhar "user.email ('$email') não parece um e-mail." "Confira se digitou o endereço completo."
-  elif [[ "${email,,}" == *"fulanodetal"* ]]; then
-    falhar "user.email ainda é o exemplo do enunciado ('$email')." "Use o e-mail da sua conta GitHub."
+  elif [[ "${email,,}" == *"fulanodetal"* || "${email,,}" == voce@* || "${email,,}" == *"@exemplo."* ]]; then
+    falhar "user.email ainda é um exemplo ('$email')." \
+      "Use o e-mail da sua conta GitHub, senão os commits não aparecem ligados ao seu perfil."
   fi
 
   local branch editor
