@@ -7,7 +7,7 @@
 | Turma | Cerca de 100 pessoas |
 | Público | Iniciantes, sem experiência prévia com Git |
 | Pré-requisitos | Conta GitHub pessoal e navegador atualizado |
-| Preparação | Criar um Codespace em branco e rodar o instalador de uma linha antes do dia da aula |
+| Preparação | Criar um Codespace em branco e executar o comando de instalação antes do dia da aula |
 
 ## Objetivos de aprendizagem
 
@@ -28,7 +28,7 @@ Ao final, a pessoa deverá ser capaz de:
 | 2. Registrando mudanças | `add`, `commit`, `diff`, `diff --staged`, `log`; o que é uma boa mensagem de commit |
 | 2b. Staging seletivo | Commits pequenos e coesos; `add -p`; `.gitignore`; `rm --cached` |
 | 3. Histórico | `log --oneline --graph`, `show`, `blame`, `log -S`, `log --author`, `log -- arquivo` |
-| 3b. Desfazendo | `restore`, `restore --staged`, `commit --amend`, `revert`; por que não reescrever histórico compartilhado |
+| 3b. Desfazendo | `restore`, `restore --staged`, `commit --amend`, `revert`; por que não reescrever o histórico compartilhado |
 | 4. Branches | Branch como ponteiro; `HEAD`; `switch`; merge fast-forward e de três vias; `branch -d` |
 | 4b. Stash | Guardar trabalho pela metade para trocar de contexto |
 | 5. Conflitos | Por que acontecem; marcadores; resolução; `merge --abort` |
@@ -81,11 +81,11 @@ Ao final, a pessoa deverá ser capaz de:
 
 ### Folga de tempo
 
-O cronograma fecha em exatamente 3 horas. Os desafios **4, 10 e 15** (⏱) são **elásticos**: permanecem na lista, mas viram tarefa pós-aula se houver atraso. Isso libera até 17 minutos.
+O cronograma ocupa as 3 horas previstas. Se houver atraso, os desafios **4, 10 e 15** (⏱) podem ficar como tarefa para depois da aula, liberando até 17 minutos.
 
 ## Os 16 desafios
 
-Os desafios 1 a 14 ficam em `~/labs/NN-nome/`, cada um com seu próprio histórico Git. O desafio 0 é configuração global do Git, e o 15 continua na pasta do 14, que o aluno publica num repositório novo da própria conta GitHub. Os enunciados completos estão em `exercises/`.
+Os desafios 1 a 14 ficam em `~/labs/NN-nome/`, cada um com seu próprio histórico Git. No desafio 0, o aluno configura sua identidade global no Git. O desafio 15 usa a mesma pasta do 14, cujo conteúdo foi publicado em um novo repositório na conta GitHub do aluno. Os enunciados completos estão em `exercises/`.
 
 | # | Desafio | Tempo | Estado inicial | Tarefa | Verificação |
 |---|---|---:|---|---|---|
@@ -96,7 +96,7 @@ Os desafios 1 a 14 ficam em `~/labs/NN-nome/`, cada um com seu próprio históri
 | 4 | Ignorando o que não importa ⏱ | 5 | `*.log`, `build/`, `.env` soltos | Criar e commitar `.gitignore`, `check-ignore -v` | Tudo ignorado; extra: `rm --cached` de log rastreado |
 | 5 | Detetive do histórico | 6 | 12 commits de 4 autores | Responder 3 perguntas em `respostas.txt` | Respostas conferem |
 | 6 | Desfazendo antes do commit | 5 | Arquivo estragado + arquivo na staging por engano | `restore` e `restore --staged` | Arquivo original, staging vazia, nenhum commit |
-| 7 | Desfazendo depois do commit | 6 | Último commit com typo; commit antigo com bug | `commit --amend`, `revert` | Mensagem corrigida, bug removido, commit antigo preservado |
+| 7 | Desfazendo depois do commit | 6 | Último commit com erro de digitação; commit antigo com bug | `commit --amend`, `revert` | Mensagem corrigida, bug removido, commit antigo preservado |
 | 8 | Branch de funcionalidade | 5 | `main` com 2 commits | `switch -c`, 2 commits, voltar, merge fast-forward | `main` tem os commits, sem merge commit |
 | 9 | Caminhos que divergem | 6 | `main` e `feature/bebidas` divergiram | Merge de três vias, `log --graph --all`, `branch -d` | Existe merge commit, branch removida |
 | 10 | Guardando para depois ⏱ | 5 | Trabalho pela metade + urgência na `main` | `stash`, corrigir na `main`, `stash pop` | Correção na `main`, trabalho recuperado, stash vazio |

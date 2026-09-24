@@ -1,6 +1,6 @@
 # Desafio 10 — Guardando para depois
 
-⏱ 5 minutos · Módulo 4b: Stash · desafio elástico
+⏱ 5 minutos · Módulo 4b: Stash · pode ficar para depois da aula
 
 ## Objetivo
 
@@ -14,7 +14,7 @@ cd ~/labs/10-guardando-para-depois
 
 ## Estado inicial
 
-Você está na branch `feature/sopas`, com `sopas.md` no meio de uma edição (veja `git status` e `git diff`). Chega o pedido urgente: na `main`, o bolo de cenoura manda assar a **1800 graus**. Precisa virar 180 antes que alguém queime a cozinha.
+Você está na branch `feature/sopas`, com `sopas.md` no meio de uma edição (veja `git status` e `git diff`). É preciso interromper esse trabalho para corrigir a receita do bolo de cenoura na `main`: a temperatura está em **1800 graus**, mas deveria ser 180.
 
 Tente ir para a `main` agora:
 
@@ -22,11 +22,11 @@ Tente ir para a `main` agora:
 git switch main
 ```
 
-O Git recusa: sua mudança em `sopas.md` seria perdida na troca. Você não quer commitar uma receita pela metade, então...
+O Git recusa a troca porque ela sobrescreveria sua mudança em `sopas.md`. Use o stash para guardar essa edição enquanto faz a correção, sem precisar criar um commit com a receita incompleta.
 
 ## Tarefa
 
-1. Guarde o trabalho em andamento na "gaveta":
+1. Guarde o trabalho em andamento com `git stash`:
 
    ```bash
    git stash
@@ -59,7 +59,7 @@ check.sh 10
 
 ## Dicas
 
-- `stash pop` recupera **e** remove da gaveta. `stash apply` recupera e mantém.
+- `stash pop` reaplica as mudanças e, quando a aplicação é concluída sem conflitos, remove a entrada do stash. `stash apply` reaplica as mudanças e mantém a entrada.
 - Por padrão o stash não guarda arquivos novos (untracked). Use `git stash -u` para incluí-los.
 
 ## Missão extra

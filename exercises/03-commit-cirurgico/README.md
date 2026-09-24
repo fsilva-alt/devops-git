@@ -23,7 +23,7 @@ Confira com `git status` e `git diff`.
 
 ## Tarefa
 
-Faça **um commit para cada arquivo**. A ideia é que `git add` recebe um arquivo por vez:
+Faça **um commit para cada arquivo**, adicionando à staging area apenas o arquivo que deve entrar em cada commit:
 
 ```bash
 git add bolo-de-cenoura.md
@@ -33,7 +33,7 @@ git add brigadeiro.md
 git commit -m "Adiciona pitada de sal ao brigadeiro"
 ```
 
-Depois confira que cada commit tocou um arquivo só:
+Depois confira que cada commit alterou apenas um arquivo:
 
 ```bash
 git log --oneline --stat

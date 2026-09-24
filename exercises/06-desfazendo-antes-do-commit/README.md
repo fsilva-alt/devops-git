@@ -4,7 +4,7 @@
 
 ## Objetivo
 
-Recuperar um arquivo estragado e tirar da staging area um arquivo que entrou por engano. Tudo isso **antes** de qualquer commit.
+Recuperar o conteúdo de um arquivo alterado por engano e tirar outro arquivo da staging area, **sem criar um commit**.
 
 ## Onde
 
@@ -14,10 +14,10 @@ cd ~/labs/06-desfazendo-antes-do-commit
 
 ## Estado inicial
 
-Rode `git status` e `git diff`. Aconteceram dois acidentes:
+Rode `git status` e `git diff` para conferir as duas alterações feitas por engano:
 
 - `bolo-de-cenoura.md` foi sobrescrito e ficou com três linhas de "ops"; a mudança está só na árvore de trabalho;
-- `notas-pessoais.md` (com a senha do wifi!) foi adicionado à staging area por engano.
+- `notas-pessoais.md`, que contém a senha do Wi-Fi, foi adicionado à staging area por engano.
 
 ## Tarefa
 
@@ -35,7 +35,7 @@ Rode `git status` e `git diff`. Aconteceram dois acidentes:
    git status
    ```
 
-   O arquivo continua na pasta, agora como *untracked*. Não é problema: ele simplesmente não vai para o commit.
+   O arquivo continua na pasta como *untracked* (não rastreado), fora da staging area.
 
 3. **Não faça commit.** O desafio termina com a árvore de trabalho igual ao último commit, mais o arquivo de notas não rastreado.
 
@@ -47,7 +47,7 @@ check.sh 06
 
 ## Atenção
 
-`git restore <arquivo>` **joga fora** o que estava na árvore de trabalho, sem perguntar. Antes de usar, olhe o `git diff` e tenha certeza de que não quer aquilo.
+`git restore <arquivo>` **descarta as alterações** na árvore de trabalho sem pedir confirmação. Antes de usar, confira o `git diff` e confirme que quer descartar essas mudanças.
 
 ## Missão extra
 

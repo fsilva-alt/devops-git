@@ -4,7 +4,7 @@
 
 ## Objetivo
 
-Espiar o que chegou no remoto com `git fetch` **antes** de integrar, e resolver um conflito que veio de outra pessoa.
+Consultar as mudanças do remoto com `git fetch` **antes** de integrá-las e resolver um conflito entre a sua alteração e a de um colega.
 
 ## Onde
 
@@ -30,7 +30,7 @@ Um clone de outro repositório bare, com as três receitas. Você e o colega vã
    colega.sh 13
    ```
 
-3. Desta vez, em vez de `pull` direto, primeiro **só baixe** o que há de novo e olhe antes de integrar:
+3. Use `git fetch` para baixar as mudanças do colega e examine-as **antes de integrar**:
 
    ```bash
    git fetch
@@ -45,7 +45,7 @@ Um clone de outro repositório bare, com as três receitas. Você e o colega vã
    git pull
    ```
 
-5. Resolva como no desafio 11: edite `bolo-de-cenoura.md` deixando só o preço final, depois:
+5. Resolva como no desafio 11: no trecho em conflito de `bolo-de-cenoura.md`, mantenha apenas a linha com o preço final e remova os marcadores. Depois, conclua o merge:
 
    ```bash
    git add bolo-de-cenoura.md
@@ -67,8 +67,8 @@ check.sh 13
 ## Dicas
 
 - `main..origin/main` significa "commits que estão em `origin/main` mas não em `main`". Inverta (`origin/main..main`) para ver o que você tem e o remoto não.
-- `fetch` nunca altera seus arquivos; é sempre seguro rodar.
+- `fetch` nunca altera seus arquivos; ele permite consultar as mudanças do remoto antes de integrá-las.
 
 ## Missão extra
 
-Numa equipe de verdade, quem decide o preço final? Escreva a decisão na mensagem do merge commit (`git commit --amend` logo após o merge, **antes** do push) e veja com `git log -1`.
+Como você explicaria ao colega a escolha do preço final? Registre a decisão na mensagem do merge commit (`git commit --amend` logo após o merge, **antes** do push) e confira com `git log -1`.

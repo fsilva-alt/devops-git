@@ -52,8 +52,8 @@ check.sh 07
 
 ## Por que não apagar o commit errado?
 
-`--amend` reescreve o histórico e só é seguro em commits que **ainda não foram compartilhados**. Se alguém já baixou aquele commit, reescrever cria dois históricos diferentes e uma dor de cabeça na hora de sincronizar. `revert` é seguro sempre, porque só adiciona.
+`--amend` reescreve o histórico e só deve ser usado em commits que **ainda não foram compartilhados**. Se alguém já baixou aquele commit, a reescrita cria dois históricos diferentes e dificulta a sincronização. Já o `revert` preserva os commits existentes e acrescenta outro para desfazer a mudança, por isso pode ser usado depois do compartilhamento.
 
 ## Missão extra
 
-Veja o que o revert fez por dentro: `git show HEAD`. Depois experimente `git revert HEAD` para desfazer o próprio revert (e `git revert HEAD` de novo para voltar).
+Confira as alterações do revert com `git show HEAD`. Depois experimente `git revert HEAD` para desfazer o próprio revert (e `git revert HEAD` de novo para voltar).

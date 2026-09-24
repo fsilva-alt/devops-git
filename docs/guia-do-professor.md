@@ -1,6 +1,6 @@
 # Guia do professor
 
-Tudo o que não está nos enunciados: logística, como o ambiente funciona por dentro e o que fazer quando algo dá errado.
+Este guia reúne a preparação da aula, o funcionamento dos laboratórios e as soluções para os problemas mais comuns.
 
 ## Antes do evento
 
@@ -12,7 +12,7 @@ Tudo o que não está nos enunciados: logística, como o ambiente funciona por d
 
 ## Como o ambiente funciona por dentro
 
-| Peça | O que faz |
+| Arquivo | Função |
 |---|---|
 | `install.sh` | O que o aluno roda via `sh -c "$(curl ...)"` num Codespace em branco: clona o curso em `~/devops-git`, roda o `setup.sh`, coloca `scripts/` no `PATH` do bash e do zsh e mostra a mensagem de sucesso. Idempotente; rodar de novo atualiza o curso |
 | `scripts/setup.sh` | Define `init.defaultBranch`, `core.editor`, `pull.rebase`; gera os labs 01–14 em `~/labs`. Idempotente: não apaga o que já existe. `--force` regenera tudo |
@@ -25,15 +25,15 @@ Tudo o que não está nos enunciados: logística, como o ambiente funciona por d
 
 Cada lab guarda metadados em `.git/lab/` (o hash do commit base, por exemplo), que as verificações usam. O aluno não vê isso no `git log`.
 
-Os labs ficam **fora** do repositório do curso de propósito. Se ficassem dentro, teríamos repositórios Git aninhados, e `git status` no repositório do curso mostraria os labs como submódulos estranhos.
+Os labs ficam **fora** do repositório do curso para evitar repositórios Git aninhados e confusão ao consultar o `git status` do curso.
 
 ## Condução da aula
 
 ### Ritmo
 
 - Anuncie cada desafio com o número e o horário de término. Peça que sinalizem no chat com ✅ quando `check.sh NN` aprovar.
-- Quando cerca de 70% sinalizarem, avise que faltam 1 minuto e siga. Quem não terminou recebe ajuda de um monitor enquanto a aula continua; a missão extra segura quem terminou cedo.
-- Se ao final do Módulo 2b o relógio estiver 5 minutos atrasado, transforme o **Desafio 4** em tarefa de casa. Os outros pontos de corte são o **Desafio 10** (antes do intervalo do bloco de branches) e o **Desafio 15** (fim).
+- Quando cerca de 70% sinalizarem, avise que falta 1 minuto e passe ao próximo bloco ao fim desse prazo. Quem ainda estiver fazendo o desafio recebe ajuda de um monitor; quem terminar cedo pode fazer a missão extra.
+- Se houver 5 minutos de atraso ao final do Módulo 2b, deixe o **Desafio 4** como tarefa de casa. Se precisar de mais tempo, faça o mesmo com o **Desafio 10** (ao fim do bloco de stash) e o **Desafio 15** (no fim da aula).
 
 ### Compartilhamento de tela
 
@@ -41,7 +41,7 @@ Mostre o seu próprio Codespace, não slides, sempre que possível. Rode os coma
 
 ### Editor
 
-O `setup.sh` define `core.editor "code --wait"`. Quando `git merge`, `git revert` ou `git commit` sem `-m` precisarem de mensagem, o VS Code abre uma aba `COMMIT_EDITMSG`. Avise **antes do Desafio 7**: "salve e feche a aba para o Git continuar". Quem fechar sem salvar aborta o commit; é só repetir o comando.
+O `setup.sh` define `core.editor "code --wait"`. Quando `git merge`, `git revert` ou `git commit` sem `-m` precisarem de uma mensagem, o VS Code abre uma aba para editá-la. Avise **antes do Desafio 7**: "salve e feche a aba para o Git continuar". Enquanto a aba estiver aberta, o terminal aguarda o editor.
 
 ## Problemas comuns
 
@@ -56,9 +56,9 @@ O `setup.sh` define `core.editor "code --wait"`. Quando `git merge`, `git revert
 | Aluno perdido no meio de um desafio | Estado inconsistente | `reset.sh NN` e recomeçar; leva segundos |
 | Pasta do lab sumiu / `No such file or directory` | Rodou `reset.sh` de dentro da pasta | `cd` de novo para a pasta |
 | `push` do Desafio 14 pede senha ou falha com 403 | Codespace sem autorização para aquele repositório, ou URL de outra conta | Aceitar o pedido de autorização do GitHub que o VS Code mostra; conferir `git remote -v` (tem de ser o repositório do próprio aluno). Alternativa: no VS Code, aba Source Control → **Publish to GitHub** |
-| Repositório do Desafio 14 nasceu com README | Aluno marcou "Add a README" ao criar | O push é rejeitado; `git pull --allow-unrelated-histories origin main` e depois `git push -u origin main`, ou criar outro repositório vazio |
+| Repositório do Desafio 14 foi criado com README | Aluno marcou "Add a README" ao criar | O push é rejeitado; `git pull --allow-unrelated-histories origin main` e depois `git push -u origin main`, ou criar outro repositório vazio |
 | Codespace lento ou não abre | Franquia esgotada ou região sobrecarregada | Verificar em github.com/codespaces; parar Codespaces antigos |
-| Tudo sumiu depois de reabrir | Codespace foi **excluído** (não só parado) | Criar de novo; o `setup.sh` recria os labs. O trabalho dos labs se perde, o do repositório do curso não, se tiver sido publicado |
+| Os arquivos não estão no Codespace | Codespace anterior foi **excluído** (não só parado) | Criar outro Codespace; o `setup.sh` recria os labs no estado inicial. O trabalho publicado no GitHub continua disponível lá |
 
 ## Ajustes fáceis
 

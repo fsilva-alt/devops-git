@@ -34,7 +34,7 @@ git log --oneline --graph --all
    git log --oneline --graph --all
    ```
 
-3. A branch cumpriu seu papel. Apague-a:
+3. Apague a branch agora que seus commits foram integrados à `main`:
 
    ```bash
    git branch -d feature/bebidas
@@ -49,7 +49,7 @@ check.sh 09
 
 ## Dicas
 
-- `git branch -d` só apaga branches já integradas. Se o Git recusar, é sinal de que há commits que ainda não estão em lugar nenhum. `-D` força, mas pense antes.
+- `git branch -d` só apaga branches já integradas. Se o Git recusar, confira quais commits ainda faltam integrar. A opção `-D` força a exclusão mesmo nesse caso.
 - Apagar a branch **não** apaga os commits: eles continuam na `main`.
 
 ## Missão extra

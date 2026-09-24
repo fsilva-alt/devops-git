@@ -4,7 +4,7 @@
 
 ## Objetivo
 
-Sentir na prática o ciclo com um repositório remoto: alguém publica antes de você, seu `push` é rejeitado, você faz `pull` e depois `push`.
+Praticar a sincronização com um repositório remoto: alguém publica antes de você, seu `push` é rejeitado e você precisa fazer `pull` antes de tentar o `push` novamente.
 
 ## Onde
 
@@ -52,7 +52,7 @@ Há um colega de equipe trabalhando no mesmo projeto. Ele é simulado pelo coman
    git log --oneline --graph
    ```
 
-5. Agora sim:
+5. Publique os commits integrados e confira a sincronização:
 
    ```bash
    git push
@@ -67,9 +67,9 @@ check.sh 12
 
 ## Dicas
 
-- `origin/main` é a **lembrança local** de onde a `main` do remoto estava na última vez que você falou com ele. Ela só atualiza com `fetch`, `pull` ou `push`.
+- `origin/main` é uma **referência local** ao último estado conhecido da `main` no remoto. Ela é atualizada com `fetch`, `pull` ou `push`.
 - `git pull` = `git fetch` + `git merge origin/main`.
 
 ## Missão extra
 
-Veja o remoto por dentro: `git log --oneline origin/main` e `git branch -r`. Depois rode `git fetch` e repare que nada muda, porque você já está sincronizado.
+Consulte o histórico e as branches conhecidas do remoto com `git log --oneline origin/main` e `git branch -r`. Depois rode `git fetch` e repare que nada muda, porque você já está sincronizado.

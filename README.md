@@ -1,9 +1,9 @@
 # Curso de Git no GitHub Codespaces
 
-Curso síncrono de 3 horas, do zero, com aula via Zoom e prática no Codespace individual de cada pessoa. Você não instala nada no seu computador: o navegador basta.
+Curso de Git para iniciantes, com 3 horas de aula ao vivo pelo Zoom e prática no Codespace individual de cada pessoa. Você faz os exercícios pelo navegador, sem instalar nada no computador.
 
-> **Aluno?** Siga a seção [Antes da aula](#antes-da-aula) agora e, no dia, a [Sequência da aula](#sequência-da-aula).
-> **Professor ou monitor?** Veja o [guia do professor](docs/guia-do-professor.md).
+> **Para alunos:** comece pela seção [Antes da aula](#antes-da-aula). No dia do curso, siga a [Sequência da aula](#sequência-da-aula).
+> **Para professores e monitores:** consulte o [guia do professor](docs/guia-do-professor.md).
 
 ## O que você vai aprender
 
@@ -18,7 +18,7 @@ A ementa completa, com cronograma, está em [docs/ementa.md](docs/ementa.md).
 
 ## Antes da aula
 
-Faça isto **pelo menos um dia antes**, para que qualquer problema de acesso apareça com folga.
+Prepare o ambiente **pelo menos um dia antes** para ter tempo de resolver eventuais problemas de acesso.
 
 1. Tenha uma conta no [GitHub](https://github.com) e esteja logado.
 2. Crie um Codespace em branco: acesse [github.com/codespaces](https://github.com/codespaces) e clique em **New codespace** com o template **Blank**, ou vá direto em [codespaces/new](https://github.com/codespaces/new). A primeira criação leva de 1 a 3 minutos.
@@ -36,13 +36,13 @@ Faça isto **pelo menos um dia antes**, para que qualquer problema de acesso apa
    check.sh 00
    ```
 
-   Ele vai reclamar que falta configurar seu nome e e-mail. Isso é esperado: você faz isso na aula. Se o comando rodou, o ambiente está funcionando.
+   O comando pode avisar que faltam seu nome e e-mail. Nesse caso, a verificação está funcionando; você vai configurar esses dados na aula.
 
-5. Pare o Codespace para não gastar sua franquia gratuita: em [github.com/codespaces](https://github.com/codespaces), **⋯ → Stop codespace**. No dia da aula, é só abrir de novo. Tudo continua lá.
+5. Pare o Codespace para poupar as horas de uso da sua franquia gratuita: em [github.com/codespaces](https://github.com/codespaces), **⋯ → Stop codespace**. No dia da aula, abra-o novamente; os arquivos continuam salvos.
 
 ## Como o ambiente funciona
 
-| Onde | O quê |
+| Caminho | Conteúdo |
 |---|---|
 | `~/devops-git/` | Este repositório: enunciados, scripts e documentos |
 | `~/devops-git/exercises/NN-nome/README.md` | O enunciado de cada desafio |
@@ -50,10 +50,10 @@ Faça isto **pelo menos um dia antes**, para que qualquer problema de acesso apa
 
 Comandos disponíveis no terminal:
 
-| Comando | Faz |
+| Comando | Função |
 |---|---|
 | `check.sh NN` | Verifica o desafio NN e responde ✅ ou uma dica |
-| `reset.sh NN` | Recria o desafio NN do zero (apaga o que você fez **nele**, só nele) |
+| `reset.sh NN` | Recria o desafio NN do zero e apaga o trabalho feito **apenas nesse desafio** |
 | `colega.sh NN` | Simula um colega publicando no remoto (desafios 12 e 13) |
 | `setup.sh` | Gera os laboratórios que ainda não existem; o instalador já rodou isso |
 
@@ -77,10 +77,10 @@ Dentro da pasta de um laboratório, `check.sh` e `reset.sh` funcionam sem o núm
 | [11](exercises/11-resolva-o-conflito/README.md) | Resolva o conflito | marcadores, `merge --abort` |
 | [12](exercises/12-o-colega-invisivel/README.md) | O colega invisível | `push` rejeitado, `pull` |
 | [13](exercises/13-conflito-com-o-colega/README.md) | Conflito com o colega | `fetch`, `main..origin/main` |
-| [14](exercises/14-publique-no-github/README.md) | Publique no GitHub | `remote add`, `push -u` de verdade |
+| [14](exercises/14-publique-no-github/README.md) | Publique no GitHub | `remote add`, `push -u` para o GitHub |
 | [15](exercises/15-seu-primeiro-pull-request/README.md) | Seu primeiro pull request ⏱ | branch, PR, merge na web, `pull` |
 
-⏱ = desafio elástico: se a aula atrasar, vira tarefa para depois.
+⏱ indica os desafios que podem ficar como tarefa para depois da aula, caso haja atraso.
 
 ## Ao final da aula
 
@@ -90,7 +90,7 @@ Dentro da pasta de um laboratório, `check.sh` e `reset.sh` funcionam sem o núm
 
 ## Para desenvolver o curso
 
-Esta seção não é para a aula. Os laboratórios são gerados por `scripts/labs.sh` e verificados por `scripts/checks.sh`. A suíte de testes em `tests/` roda num container Ubuntu limpo (precisa de Docker): executa o `install.sh` como um aluno faria e, para cada desafio, confere que `check.sh` reprova o estado vazio, reprova respostas erradas com a dica certa e aprova a solução do gabarito:
+Os laboratórios são gerados por `scripts/labs.sh` e verificados por `scripts/checks.sh`. A suíte de testes em `tests/` roda em um container Ubuntu limpo e precisa de Docker. Ela executa o `install.sh` como um aluno faria e confere, para cada desafio, se `check.sh` reprova o estado vazio, dá a dica correspondente a cada resposta errada e aprova a solução do gabarito. Para rodar:
 
 ```bash
 tests/rodar.sh

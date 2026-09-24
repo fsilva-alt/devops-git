@@ -11,7 +11,7 @@ git config --global user.name "<seu nome de verdade>"
 git config --global user.email <e-mail da sua conta GitHub>
 ```
 
-A verificação recusa nomes e e-mails de exemplo (`Fulano`, `Seu Nome`, `voce@…`, `@exemplo.*`): copiar e colar sem trocar os valores **reprova** de propósito.
+A verificação recusa nomes e e-mails de exemplo (`Fulano`, `Seu Nome`, `voce@…`, `@exemplo.*`). Substitua-os pelo nome e e-mail do aluno antes de executar os comandos.
 
 ## Desafio 1 — Meu primeiro repositório
 
@@ -44,7 +44,7 @@ git add brigadeiro.md
 git commit -m "Adiciona pitada de sal ao brigadeiro"
 ```
 
-Missão extra: edite `pao-de-queijo.md` no topo e no final, depois `git add -p pao-de-queijo.md` respondendo `y` ao primeiro trecho e `n` ao segundo; commit; `git add` e commit do restante.
+Missão extra: edite `pao-de-queijo.md` no topo e no final. Rode `git add -p pao-de-queijo.md`, respondendo `y` ao primeiro trecho e `n` ao segundo, e faça o commit. Depois use `git add` e faça o commit do restante.
 
 ## Desafio 4 — Ignorando o que não importa
 
@@ -87,7 +87,7 @@ git log --oneline                                   # ache "Ajusta ingredientes 
 git revert <hash>                                   # salve e feche o editor
 ```
 
-Se o aluno fez o revert **antes** do amend, o amend mudou a mensagem do revert e o "pudin" ficou. Saída: `reset.sh 07`.
+Se o aluno fez o revert **antes** do amend, acabou alterando a mensagem do revert, e o erro "pudin" permaneceu. Nesse caso, use `reset.sh 07` para recomeçar.
 
 ## Desafio 8 — Branch de funcionalidade
 
@@ -159,7 +159,7 @@ git push
 
 ## Desafio 14 — Publique no GitHub
 
-Na web: **+ → New repository**, nome `livro-de-receitas`, sem README/.gitignore/licença, **Create repository**. Depois:
+No GitHub, clique em **+ → New repository** e dê ao repositório o nome `livro-de-receitas`. Deixe as opções de README, .gitignore e licença desmarcadas e clique em **Create repository**. Depois, no terminal:
 
 ```bash
 cd ~/labs/14-publique-no-github

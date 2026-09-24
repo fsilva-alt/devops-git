@@ -4,7 +4,7 @@
 
 ## Objetivo
 
-Dizer ao Git quem você é. Cada commit carrega o nome e o e-mail de quem o fez, e o Git se recusa a fazer commit sem essa informação.
+Configurar o nome e o e-mail usados para identificar a autoria dos seus commits. O Git precisa desses dados para criar um commit.
 
 ## Onde
 
@@ -20,7 +20,7 @@ O Git lê a mesma configuração em três arquivos diferentes. Do mais abrangent
 | `--global` | `~/.gitconfig` | Todos os repositórios **do seu usuário** | O normal — é o que vamos usar |
 | `--local` | `.git/config` do repositório | **Só aquele repositório** | Quando um projeto precisa de outra identidade (e-mail do trabalho, por exemplo) |
 
-O mais específico vence: se você definir `user.email` nos três, o `--local` é o que assina o commit daquele repositório.
+A configuração mais específica tem prioridade: se você definir `user.email` nos três níveis, o commit usará o valor de `--local` naquele repositório.
 
 Para descobrir de onde veio cada valor:
 
@@ -62,11 +62,11 @@ git config --list --show-origin
 check.sh 00
 ```
 
-A verificação **recusa** nomes e e-mails de exemplo (`Fulano de Tal`, `Seu Nome`, `voce@…`, qualquer `@exemplo.*`). Copiar e colar sem trocar os valores reprova de propósito: quem assina os commits é você.
+A verificação **recusa** nomes e e-mails de exemplo (`Fulano de Tal`, `Seu Nome`, `voce@…`, qualquer `@exemplo.*`). Substitua esses valores pelos seus dados antes de executar os comandos.
 
 ## Dica
 
-Se errar alguma coisa, é só rodar o comando de novo com o valor certo. O último vence.
+Se errar o nome ou o e-mail, rode o comando de novo com o valor correto para substituir o anterior.
 
 ## Missão extra
 
@@ -78,4 +78,4 @@ git config user.email          # sem nível: mostra o valor que vale ali
 git config --global user.email # continua o seu
 ```
 
-Viu o `--local` ganhar? Desfaça com `git config --local --unset user.email`.
+Compare as saídas: neste repositório, o e-mail local tem prioridade sobre o global. Remova a configuração local com `git config --local --unset user.email`.

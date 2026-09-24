@@ -4,7 +4,7 @@
 
 ## Objetivo
 
-Enfrentar um conflito de merge sem pânico: ler os marcadores, decidir o conteúdo final e concluir o merge.
+Resolver um conflito de merge: ler os marcadores, escolher o conteúdo final e concluir o merge.
 
 ## Onde
 
@@ -42,7 +42,7 @@ git diff main ajuste-preco
 
    Entre `<<<<<<<` e `=======` está a versão da sua branch (`HEAD`, a `main`). Entre `=======` e `>>>>>>>` está a versão que está chegando.
 
-3. **Decida** qual é o conteúdo certo (pode ser um dos dois, ou um terceiro valor) e edite o arquivo até sobrar **só** a linha final, sem nenhum marcador. O VS Code oferece botões para isso; usar o teclado também funciona.
+3. **Escolha** o preço final: um dos dois valores ou um terceiro. No trecho em conflito, deixe **uma única linha de preço**, sem nenhum marcador. Você pode usar os botões do VS Code ou editar o trecho manualmente.
 
 4. Diga ao Git que resolveu e conclua o merge:
 
@@ -63,7 +63,7 @@ check.sh 11
 
 ## Missão extra
 
-Nem sempre dá para resolver na hora. Recrie o cenário e pratique a saída de emergência:
+Para praticar o cancelamento de um merge, recrie o cenário e use `git merge --abort`:
 
 ```bash
 reset.sh 11

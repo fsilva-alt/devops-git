@@ -4,7 +4,7 @@
 
 ## Objetivo
 
-Fazer o primeiro `push` para um remoto de verdade: um repositório **seu** no GitHub, criado agora.
+Fazer o primeiro `push` para um repositório criado na **sua conta** do GitHub.
 
 ## Onde
 
@@ -25,7 +25,7 @@ Um repositório local com o livro de receitas e um README, mas **sem remoto** (`
    git commit -m "Adiciona meus aprendizados do curso"
    ```
 
-2. No GitHub, crie um repositório vazio: clique em **+** (canto superior direito) → **New repository**. Nome: `livro-de-receitas`. **Não** marque "Add a README" nem .gitignore nem licença, para que ele nasça vazio. Clique em **Create repository**.
+2. No GitHub, clique em **+** (canto superior direito) → **New repository** e use o nome `livro-de-receitas`. O repositório precisa estar vazio: **não** marque "Add a README", .gitignore ou licença. Clique em **Create repository**.
 
 3. O GitHub mostra uma página com instruções para "push an existing repository". Copie a URL do repositório e ligue o remoto:
 
@@ -34,7 +34,7 @@ Um repositório local com o livro de receitas e um README, mas **sem remoto** (`
    git remote -v
    ```
 
-4. Publique. O `-u` liga a `main` local à `main` do GitHub, para que os próximos `push` e `pull` saibam para onde ir. Se o VS Code pedir para autorizar o acesso ao GitHub, aceite:
+4. Publique o repositório. O `-u` associa a `main` local à `main` do GitHub, definindo a branch remota usada nos próximos `push` e `pull`. Se o VS Code pedir para autorizar o acesso ao GitHub, aceite:
 
    ```bash
    git push -u origin main

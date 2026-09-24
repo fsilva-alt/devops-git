@@ -1,6 +1,6 @@
 # Desafio 4 — Ignorando o que não importa
 
-⏱ 5 minutos · Módulo 2b: Staging seletivo · desafio elástico
+⏱ 5 minutos · Módulo 2b: Staging seletivo · pode ficar para depois da aula
 
 ## Objetivo
 
@@ -14,7 +14,7 @@ cd ~/labs/04-ignorando-o-que-nao-importa
 
 ## Estado inicial
 
-`git status` mostra uma bagunça de arquivos não rastreados:
+`git status` lista estes arquivos não rastreados:
 
 - `debug.log` e `erros.log`: logs gerados por uma ferramenta;
 - `build/livro.html`: resultado de uma conversão, pode ser regenerado;

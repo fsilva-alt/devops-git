@@ -4,7 +4,7 @@
 
 ## Objetivo
 
-Transformar uma pasta comum num repositório Git e fazer o primeiro commit, observando como os arquivos passam de **não rastreados** para **na staging area** e depois para **commitados**.
+Transformar uma pasta comum num repositório Git e fazer o primeiro commit. Você vai acompanhar os arquivos desde o estado **não rastreado**, passando pela **staging area**, até serem **registrados no commit**.
 
 ## Onde
 
@@ -14,7 +14,7 @@ cd ~/labs/01-meu-primeiro-repositorio
 
 ## Estado inicial
 
-Uma pasta com três receitas (`bolo-de-cenoura.md`, `brigadeiro.md` e `pao-de-queijo.md`). Ainda **não** é um repositório: repare que `git status` reclama.
+Uma pasta com três receitas (`bolo-de-cenoura.md`, `brigadeiro.md` e `pao-de-queijo.md`). Ainda **não** é um repositório; ao executar `git status`, você verá uma mensagem informando isso.
 
 ## Tarefa
 
@@ -59,4 +59,4 @@ check.sh 01
 
 ## Missão extra
 
-Rode `ls -a` e olhe a pasta `.git` que apareceu. Ela **é** o repositório: se você apagá-la, a pasta volta a ser uma pasta comum. (Não apague agora!)
+Rode `ls -a` e observe a pasta `.git` criada pelo `git init`. Ela guarda os dados do repositório; apagá-la deixa apenas os arquivos da pasta, sem o histórico Git. Mantenha-a para continuar o exercício.

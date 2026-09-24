@@ -14,11 +14,11 @@ cd ~/labs/05-detetive-do-historico
 
 ## Estado inicial
 
-Um repositório com 12 commits feitos por quatro pessoas: Ana, Bruno, Carla e Diego. Você não estava lá quando aconteceu, mas o histórico estava.
+Um repositório com 12 commits feitos por quatro pessoas: Ana, Bruno, Carla e Diego.
 
 ## Tarefa
 
-Abra `respostas.txt` e preencha as três respostas na linha que começa com `R:`:
+Abra `respostas.txt` e escreva cada resposta na linha que começa com `R:`, abaixo da pergunta correspondente:
 
 1. **Quem alterou o preço sugerido do bolo de cenoura?** (nome da pessoa)
 2. **Em qual commit a receita de pão caseiro entrou?** (hash curto, os 7 primeiros caracteres)
