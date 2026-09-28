@@ -18,7 +18,8 @@ Ao final, a pessoa deverá ser capaz de:
 - investigar o histórico de um projeto;
 - desfazer mudanças com segurança, antes e depois do commit;
 - trabalhar com branches e resolver conflitos de merge;
-- sincronizar com um repositório remoto e abrir um pull request.
+- sincronizar com um repositório remoto e abrir um pull request;
+- contribuir com outro projeto usando fork, clone e PR para o repositório original.
 
 ## Conteúdo por módulo
 
@@ -33,47 +34,48 @@ Ao final, a pessoa deverá ser capaz de:
 | 4b. Stash | Guardar trabalho pela metade para trocar de contexto |
 | 5. Conflitos | Por que acontecem; marcadores; resolução; `merge --abort` |
 | 6. Remotos | Local e remoto; `origin`; `clone`; `fetch` e `pull`; `push`; upstream; ahead/behind |
-| 7. Fluxo no GitHub | Branch, push, pull request, merge na web, pull |
+| 7. Fluxo no GitHub | Branch, push, pull request, merge na web, pull, fork, clone e remoto `upstream` |
 
 ## Cronograma
 
 | Horário | Bloco | Conteúdo |
 |---|---|---|
 | 0:00–0:10 | Abertura | Logística do Zoom, abrir o Codespace, **Desafio 0** (identidade) guiado |
-| 0:10–0:20 | Módulo 1 | Controle de versão, commits como snapshots, as três áreas, `init`, `status` |
-| 0:20–0:26 | **Desafio 1** | Meu primeiro repositório |
-| 0:26–0:33 | Módulo 2 | `add`, `commit`, `diff`, `diff --staged`, `log`, boas mensagens |
-| 0:33–0:39 | **Desafio 2** | Registrando mudanças |
-| 0:39–0:44 | Módulo 2b | Commits pequenos e coesos, `.gitignore` |
-| 0:44–0:49 | **Desafio 3** | Commit cirúrgico |
-| 0:49–0:54 | **Desafio 4** ⏱ | Ignorando o que não importa |
-| 0:54–1:00 | Módulo 3 | `log --oneline --graph`, `show`, `blame`, `log -S`, `log --author` |
-| 1:00–1:06 | **Desafio 5** | Detetive do histórico |
-| 1:06–1:13 | Módulo 3b | `restore`, `restore --staged`, `commit --amend`, `revert` |
-| 1:13–1:18 | **Desafio 6** | Desfazendo antes do commit |
-| 1:18–1:24 | **Desafio 7** | Desfazendo depois do commit |
-| 1:24–1:34 | Intervalo | |
-| 1:34–1:43 | Módulo 4 | Branch como ponteiro, `HEAD`, `switch`, merge fast-forward e de três vias |
-| 1:43–1:48 | **Desafio 8** | Branch de funcionalidade |
-| 1:48–1:54 | **Desafio 9** | Caminhos que divergem |
-| 1:54–1:58 | Módulo 4b | Stash |
-| 1:58–2:03 | **Desafio 10** ⏱ | Guardando para depois |
-| 2:03–2:09 | Módulo 5 | Conflitos: por que acontecem, marcadores, resolução, `merge --abort` |
-| 2:09–2:16 | **Desafio 11** | Resolva o conflito |
-| 2:16–2:25 | Módulo 6 | Local e remoto, `origin`, `clone`, `fetch` e `pull`, `push`, upstream, ahead/behind |
-| 2:25–2:31 | **Desafio 12** | O colega invisível |
-| 2:31–2:38 | **Desafio 13** | Conflito com o colega |
-| 2:38–2:43 | **Desafio 14** | Publique no GitHub |
-| 2:43–2:48 | Módulo 7 | Branch, push, pull request, merge, pull |
-| 2:48–2:55 | **Desafio 15** ⏱ | Seu primeiro pull request |
+| 0:10–0:18 | Módulo 1 | Controle de versão, commits como snapshots, as três áreas, `init`, `status` |
+| 0:18–0:24 | **Desafio 1** | Meu primeiro repositório |
+| 0:24–0:30 | Módulo 2 | `add`, `commit`, `diff`, `diff --staged`, `log`, boas mensagens |
+| 0:30–0:36 | **Desafio 2** | Registrando mudanças |
+| 0:36–0:40 | Módulo 2b | Commits pequenos e coesos, `.gitignore` |
+| 0:40–0:45 | **Desafio 3** | Commit cirúrgico |
+| 0:45–0:50 | **Desafio 4** ⏱ | Ignorando o que não importa |
+| 0:50–0:55 | Módulo 3 | `log --oneline --graph`, `show`, `blame`, `log -S`, `log --author` |
+| 0:55–1:01 | **Desafio 5** | Detetive do histórico |
+| 1:01–1:07 | Módulo 3b | `restore`, `restore --staged`, `commit --amend`, `revert` |
+| 1:07–1:12 | **Desafio 6** | Desfazendo antes do commit |
+| 1:12–1:18 | **Desafio 7** | Desfazendo depois do commit |
+| 1:18–1:28 | Intervalo | |
+| 1:28–1:35 | Módulo 4 | Branch como ponteiro, `HEAD`, `switch`, merge fast-forward e de três vias |
+| 1:35–1:40 | **Desafio 8** | Branch de funcionalidade |
+| 1:40–1:46 | **Desafio 9** | Caminhos que divergem |
+| 1:46–1:49 | Módulo 4b | Stash |
+| 1:49–1:54 | **Desafio 10** ⏱ | Guardando para depois |
+| 1:54–1:59 | Módulo 5 | Conflitos: por que acontecem, marcadores, resolução, `merge --abort` |
+| 1:59–2:06 | **Desafio 11** | Resolva o conflito |
+| 2:06–2:12 | Módulo 6 | Local e remoto, `origin`, `clone`, `fetch` e `pull`, `push`, upstream, ahead/behind |
+| 2:12–2:18 | **Desafio 12** | O colega invisível |
+| 2:18–2:25 | **Desafio 13** | Conflito com o colega |
+| 2:25–2:30 | **Desafio 14** | Publique no GitHub |
+| 2:30–2:33 | Módulo 7 | Branch, push, pull request, merge, pull |
+| 2:33–2:40 | **Desafio 15** ⏱ | Seu primeiro pull request |
+| 2:40–2:55 | **Desafio 16** | Contribua com um fork |
 | 2:55–3:00 | Encerramento | Salvar o trabalho, parar ou excluir o Codespace, próximos passos |
 
 ### Distribuição do tempo
 
 | Tipo de bloco | Minutos |
 |---|---:|
-| Desafios (1 a 15) | 87 |
-| Conteúdo expositivo | 68 |
+| Desafios (1 a 16) | 102 |
+| Conteúdo expositivo | 53 |
 | Abertura (inclui Desafio 0) | 10 |
 | Intervalo | 10 |
 | Encerramento | 5 |
@@ -83,9 +85,9 @@ Ao final, a pessoa deverá ser capaz de:
 
 O cronograma ocupa as 3 horas previstas. Se houver atraso, os desafios **4, 10 e 15** (⏱) podem ficar como tarefa para depois da aula, liberando até 17 minutos.
 
-## Os 16 desafios
+## Os 17 desafios
 
-Os desafios 1 a 14 ficam em `~/labs/NN-nome/`, cada um com seu próprio histórico Git. No desafio 0, o aluno configura sua identidade global no Git. O desafio 15 usa a mesma pasta do 14, cujo conteúdo foi publicado em um novo repositório na conta GitHub do aluno. Os enunciados completos estão em `exercises/`.
+Os desafios 1 a 14 ficam em `~/labs/NN-nome/`, cada um com seu próprio histórico Git. No desafio 0, o aluno configura sua identidade global no Git. O desafio 15 usa a mesma pasta do 14, cujo conteúdo foi publicado em um novo repositório na conta GitHub do aluno. No desafio 16, o aluno faz um fork de `fsilva-alt/receitas-de-pizza` e o clona em `~/labs/16-contribua-com-um-fork`; a conferência é manual pelo PR no projeto original. Os enunciados completos estão em `exercises/`.
 
 | # | Desafio | Tempo | Estado inicial | Tarefa | Verificação |
 |---|---|---:|---|---|---|
@@ -105,3 +107,4 @@ Os desafios 1 a 14 ficam em `~/labs/NN-nome/`, cada um com seu próprio históri
 | 13 | Conflito com o colega | 7 | Mesmo cenário, mesma linha | `fetch`, `log main..origin/main`, `pull`, resolver, `push` | Remoto atualizado, sem marcadores |
 | 14 | Publique no GitHub | 5 | Repositório local sem remoto | Criar `aprendizados.md`, commit, criar repositório vazio no GitHub, `remote add`, `push -u` | `HEAD` = `origin/main`, upstream definido |
 | 15 | Seu primeiro pull request ⏱ | 7 | Mesma pasta, já ligada ao GitHub | Branch, `push -u`, PR, merge na web, `pull`, `branch -d` | `main` sincronizada, branch apagada |
+| 16 | Contribua com um fork | 15 | Repositório público `fsilva-alt/receitas-de-pizza` | Fork, clone, `upstream`, receita em uma branch, push no fork e PR para o original | Manual: remotos corretos, branch publicada e PR com a receita para a `main` do original |

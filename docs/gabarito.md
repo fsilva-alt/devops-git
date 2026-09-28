@@ -1,6 +1,6 @@
 # Gabarito
 
-Sequência de comandos que resolve cada desafio. Serve para o professor, para os monitores e para quem quiser conferir depois da aula. A versão executável, usada pelos testes, está em `tests/solucoes.sh`.
+Sequência de comandos que resolve cada desafio. Serve para o professor, para os monitores e para quem quiser conferir depois da aula. A versão executável dos desafios 0 a 15, usada pelos testes, está em `tests/solucoes.sh`. O desafio 16 tem conferência manual no GitHub.
 
 Todos os desafios de 1 a 13 começam com `cd ~/labs/NN-nome`.
 
@@ -183,4 +183,44 @@ git push -u origin mais-um-aprendizado
 git switch main
 git pull
 git branch -d mais-um-aprendizado
+```
+
+## Desafio 16 — Contribua com um fork
+
+No GitHub, abra [fsilva-alt/receitas-de-pizza](https://github.com/fsilva-alt/receitas-de-pizza), clique em **Fork**, selecione sua conta como **Owner**, mantenha o nome e clique em **Create fork**. Depois, no terminal, substitua `seu-usuario` pelo usuário do aluno:
+
+```bash
+USUARIO=seu-usuario
+mkdir -p ~/labs
+git clone "https://github.com/$USUARIO/receitas-de-pizza.git" ~/labs/16-contribua-com-um-fork
+cd ~/labs/16-contribua-com-um-fork
+git remote add upstream https://github.com/fsilva-alt/receitas-de-pizza.git
+git fetch upstream
+git switch main
+git merge --ff-only upstream/main
+git remote -v
+git switch -c minha-pizza
+code "pizza-$USUARIO.md"
+# escreva e salve uma receita com título, ingredientes e modo de preparo
+git add "pizza-$USUARIO.md"
+git diff --staged
+git commit -m "Adiciona minha receita de pizza"
+git push -u origin minha-pizza
+git status
+```
+
+No repositório original, abra **Pull requests → New pull request → compare across forks**. Confira:
+
+- **base repository:** `fsilva-alt/receitas-de-pizza`; **base:** `main`;
+- **head repository:** `SEU-USUARIO/receitas-de-pizza`; **compare:** `minha-pizza`.
+
+Revise o diff e crie o PR com título e descrição da receita. A conferência manual verifica os remotos, a branch publicada, o arquivo na aba **Files changed** e o destino do PR. O aluno entrega o link do PR aberto; o responsável pelo projeto faz a revisão e decide sobre o merge.
+
+Missão extra, depois do merge:
+
+```bash
+git switch main
+git fetch upstream
+git merge --ff-only upstream/main
+git push origin main
 ```

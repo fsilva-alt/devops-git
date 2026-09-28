@@ -12,7 +12,8 @@ Curso de Git para iniciantes, com 3 horas de aula ao vivo pelo Zoom e prática n
 - investigar o histórico: quem mudou o quê, quando e por quê;
 - desfazer mudanças com segurança, antes e depois do commit;
 - trabalhar com branches, fazer merge e resolver conflitos;
-- sincronizar com um remoto e abrir um pull request no GitHub.
+- sincronizar com um remoto e abrir um pull request no GitHub;
+- fazer um fork, cloná-lo e contribuir com o projeto original por pull request.
 
 A ementa completa, com cronograma, está em [docs/ementa.md](docs/ementa.md).
 
@@ -47,17 +48,18 @@ Prepare o ambiente **pelo menos um dia antes** para ter tempo de resolver eventu
 | `~/devops-git/` | Este repositório: enunciados, scripts e documentos |
 | `~/devops-git/exercises/NN-nome/README.md` | O enunciado de cada desafio |
 | `~/labs/NN-nome/` | Um repositório Git independente para cada desafio de 1 a 14 |
+| `~/labs/16-contribua-com-um-fork/` | Clone do seu fork, criado por você no desafio 16 |
 
 Comandos disponíveis no terminal:
 
 | Comando | Função |
 |---|---|
-| `check.sh NN` | Verifica o desafio NN e responde ✅ ou uma dica |
-| `reset.sh NN` | Recria o desafio NN do zero e apaga o trabalho feito **apenas nesse desafio** |
+| `check.sh NN` | Verifica os desafios 00 a 15 e responde ✅ ou uma dica |
+| `reset.sh NN` | Recria um laboratório de 01 a 14 do zero e apaga o trabalho feito **apenas nesse laboratório** |
 | `colega.sh NN` | Simula um colega publicando no remoto (desafios 12 e 13) |
 | `setup.sh` | Gera os laboratórios que ainda não existem; o instalador já rodou isso |
 
-Dentro da pasta de um laboratório, `check.sh` e `reset.sh` funcionam sem o número. Para ler um enunciado no editor: `code ~/devops-git/exercises/05-detetive-do-historico/README.md`.
+Dentro da pasta de um laboratório gerado pelo instalador, `check.sh` e `reset.sh` funcionam sem o número. O desafio 16 tem verificação manual pelo PR no GitHub. Para ler um enunciado no editor: `code ~/devops-git/exercises/05-detetive-do-historico/README.md`.
 
 ## Sequência da aula
 
@@ -79,18 +81,19 @@ Dentro da pasta de um laboratório, `check.sh` e `reset.sh` funcionam sem o núm
 | [13](exercises/13-conflito-com-o-colega/README.md) | Conflito com o colega | `fetch`, `main..origin/main` |
 | [14](exercises/14-publique-no-github/README.md) | Publique no GitHub | `remote add`, `push -u` para o GitHub |
 | [15](exercises/15-seu-primeiro-pull-request/README.md) | Seu primeiro pull request ⏱ | branch, PR, merge na web, `pull` |
+| [16](exercises/16-contribua-com-um-fork/README.md) | Contribua com um fork | fork, `clone`, `origin`/`upstream`, PR para o projeto original |
 
 ⏱ indica os desafios que podem ficar como tarefa para depois da aula, caso haja atraso.
 
 ## Ao final da aula
 
-1. Confira que seu trabalho está publicado: `check.sh 14` e `check.sh 15`.
+1. Confira que seu trabalho está publicado: `check.sh 14` e `check.sh 15`. No desafio 16, compartilhe o link do PR em `fsilva-alt/receitas-de-pizza` com o professor ou monitor.
 2. **Pare ou exclua o Codespace.** Um Codespace parado continua ocupando armazenamento da franquia gratuita; um excluído não. Os laboratórios são descartáveis: o instalador recria tudo em outro Codespace a qualquer momento.
 3. O repositório `livro-de-receitas` que você publicou no desafio 14 continua na sua conta do GitHub, com o `aprendizados.md`, para revisar depois.
 
 ## Para desenvolver o curso
 
-Os laboratórios são gerados por `scripts/labs.sh` e verificados por `scripts/checks.sh`. A suíte de testes em `tests/` roda em um container Ubuntu limpo e precisa de Docker. Ela executa o `install.sh` como um aluno faria e confere, para cada desafio, se `check.sh` reprova o estado vazio, dá a dica correspondente a cada resposta errada e aprova a solução do gabarito. Para rodar:
+Os laboratórios são gerados por `scripts/labs.sh` e verificados por `scripts/checks.sh`. A suíte de testes em `tests/` roda em um container Ubuntu limpo e precisa de Docker. Ela executa o `install.sh` como um aluno faria e confere, para os desafios 0 a 15, se `check.sh` reprova o estado vazio, dá a dica correspondente a cada resposta errada e aprova a solução do gabarito. O desafio 16 é conferido manualmente no GitHub. Para rodar:
 
 ```bash
 tests/rodar.sh

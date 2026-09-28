@@ -5,7 +5,8 @@ Este guia reúne a preparação da aula, o funcionamento dos laboratórios e as 
 ## Antes do evento
 
 - [ ] Garantir que o repositório `fsilva-alt/devops-git` está público, com o `install.sh` na branch `main` (é dele que o `curl` do instalador lê).
-- [ ] Testar num Codespace em branco novo: rodar a linha do instalador, cronometrar os 16 desafios e, principalmente, conferir que o `git push` do desafio 14 funciona (a autorização do GitHub pode aparecer uma vez no VS Code).
+- [ ] Testar num Codespace em branco novo: rodar a linha do instalador, cronometrar os desafios 0 a 15 e, principalmente, conferir que o `git push` do desafio 14 funciona (a autorização do GitHub pode aparecer uma vez no VS Code).
+- [ ] Testar o desafio 16 com uma conta diferente de `fsilva-alt`: conferir acesso público a `fsilva-alt/receitas-de-pizza`, fork, clone, push e abertura do PR. Combinar com os monitores onde os alunos entregarão os links e quem revisará as receitas.
 - [ ] Pedir aos alunos que façam a seção "Antes da aula" do README **pelo menos um dia antes** e parem o Codespace.
 - [ ] Combinar com os monitores: sugestão de 1 monitor para cada 25 pessoas.
 - [ ] Preparar o Zoom: chat liberado, um monitor de olho no chat, salas simultâneas opcionais para atendimento individual.
@@ -27,6 +28,8 @@ Cada lab guarda metadados em `.git/lab/` (o hash do commit base, por exemplo), q
 
 Os labs ficam **fora** do repositório do curso para evitar repositórios Git aninhados e confusão ao consultar o `git status` do curso.
 
+O desafio 16 é criado pelo próprio aluno com `git clone`, em `~/labs/16-contribua-com-um-fork`. Sua verificação é manual; `check.sh` atende os desafios 00–15 e `reset.sh` recria os labs 01–14.
+
 ## Condução da aula
 
 ### Ritmo
@@ -34,6 +37,7 @@ Os labs ficam **fora** do repositório do curso para evitar repositórios Git an
 - Anuncie cada desafio com o número e o horário de término. Peça que sinalizem no chat com ✅ quando `check.sh NN` aprovar.
 - Quando cerca de 70% sinalizarem, avise que falta 1 minuto e passe ao próximo bloco ao fim desse prazo. Quem ainda estiver fazendo o desafio recebe ajuda de um monitor; quem terminar cedo pode fazer a missão extra.
 - Se houver 5 minutos de atraso ao final do Módulo 2b, deixe o **Desafio 4** como tarefa de casa. Se precisar de mais tempo, faça o mesmo com o **Desafio 10** (ao fim do bloco de stash) e o **Desafio 15** (no fim da aula).
+- No **Desafio 16**, reforce o destino do PR: `fsilva-alt/receitas-de-pizza:main`, recebendo a branch `minha-pizza` do fork de cada aluno. A entrega é o link do PR aberto; o merge pode acontecer depois da revisão. Cada aluno usa `pizza-SEU-USUARIO.md` para reduzir conflitos entre contribuições.
 
 ### Compartilhamento de tela
 
@@ -57,17 +61,20 @@ O `setup.sh` define `core.editor "code --wait"`. Quando `git merge`, `git revert
 | Pasta do lab sumiu / `No such file or directory` | Rodou `reset.sh` de dentro da pasta | `cd` de novo para a pasta |
 | `push` do Desafio 14 pede senha ou falha com 403 | Codespace sem autorização para aquele repositório, ou URL de outra conta | Aceitar o pedido de autorização do GitHub que o VS Code mostra; conferir `git remote -v` (tem de ser o repositório do próprio aluno). Alternativa: no VS Code, aba Source Control → **Publish to GitHub** |
 | Repositório do Desafio 14 foi criado com README | Aluno marcou "Add a README" ao criar | O push é rejeitado; `git pull --allow-unrelated-histories origin main` e depois `git push -u origin main`, ou criar outro repositório vazio |
+| `push` do Desafio 16 falha com 403 | `origin` aponta para o projeto original ou falta autorização para o fork | Conferir `git remote -v`: `origin` deve apontar para a conta do aluno; autorizar o acesso ao fork no Codespace |
+| PR do Desafio 16 foi aberto no próprio fork | Destino escolhido incorretamente | Abrir o PR no original usando **compare across forks**: base `fsilva-alt/receitas-de-pizza:main`, head `ALUNO/receitas-de-pizza:minha-pizza`; fechar o PR aberto no destino errado |
 | Codespace lento ou não abre | Franquia esgotada ou região sobrecarregada | Verificar em github.com/codespaces; parar Codespaces antigos |
 | Os arquivos não estão no Codespace | Codespace anterior foi **excluído** (não só parado) | Criar outro Codespace; o `setup.sh` recria os labs no estado inicial. O trabalho publicado no GitHub continua disponível lá |
 
 ## Ajustes fáceis
 
 - **Mudar o tema das receitas:** só `scripts/labs.sh`. As verificações dependem de alguns nomes de arquivo e de trechos (`45,00`, `2 batatas`, `manteiga`); procure em `scripts/checks.sh` antes de trocar.
-- **Adicionar um desafio:** acrescente o nome em `LAB_NOMES` (`scripts/lib.sh`), uma função `gerar_NN` em `labs.sh`, uma `verificar_NN` em `checks.sh`, o enunciado em `exercises/` e um bloco em `tests/solucoes.sh`. Ajuste `ULTIMO_LAB_LOCAL` se o desafio for local.
+- **Adicionar um desafio com verificação automática:** acrescente o nome em `LAB_NOMES` (`scripts/lib.sh`), uma função `gerar_NN` em `labs.sh`, uma `verificar_NN` em `checks.sh`, o enunciado em `exercises/` e um bloco em `tests/solucoes.sh`. Ajuste `ULTIMO_LAB_LOCAL` se o desafio for local.
+- **Desafio com conferência manual, como o 16:** mantenha o enunciado, o gabarito, o índice, a ementa e os slides atualizados, com os critérios de entrega no GitHub.
 - **Rodar os testes:** `tests/rodar.sh` (precisa de Docker). Rode sempre que mexer em `labs.sh` ou `checks.sh`.
 
 ## Encerramento
 
-1. `check.sh 14` e `check.sh 15` para conferir que o trabalho está no GitHub.
+1. `check.sh 14` e `check.sh 15` para conferir que o trabalho está no GitHub. No desafio 16, conferir o PR no projeto original e receber o link do aluno.
 2. Parar ou excluir o Codespace. Reforce: **parado ainda consome armazenamento**; excluído não. Os labs são descartáveis.
-3. Próximos passos sugeridos: [Pro Git](https://git-scm.com/book/pt-br/v2) (gratuito, em português), [Learn Git Branching](https://learngitbranching.js.org/?locale=pt_BR) (interativo), e contribuir com um projeto open source pequeno via pull request.
+3. Próximos passos sugeridos: [Pro Git](https://git-scm.com/book/pt-br/v2) (gratuito, em português), [Learn Git Branching](https://learngitbranching.js.org/?locale=pt_BR) (interativo), e contribuir com outro projeto open source via fork e pull request.

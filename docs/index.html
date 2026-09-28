@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--ARTIFACT-START-->
 <title>Git no Codespaces</title>
-<meta name="description" content="Slides do curso de Git no GitHub Codespaces: 16 desafios, conceitos, diagramas e links de documentação.">
+<meta name="description" content="Slides do curso de Git no GitHub Codespaces: 17 desafios, conceitos, diagramas e links de documentação.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -282,7 +282,7 @@ function cover(d, objetivo, onde, extra=''){
     ${extra}
   </div><div class="stack">
     <div class="box lift"><h3>Onde</h3>${onde}</div>
-    <div class="box soft"><h3>Ficha</h3>${kv([['⏱ tempo', `${d.time} min${d.el?' · <span class="chip amber">pode ficar para depois da aula</span>':''}`],['módulo', d.mod],['verificação', `<code>check.sh ${String(d.n).padStart(2,'0')}</code>`]], ['',''])}</div>
+    <div class="box soft"><h3>Ficha</h3>${kv([['⏱ tempo', `${d.time} min${d.el?' · <span class="chip amber">pode ficar para depois da aula</span>':''}`],['módulo', d.mod],['verificação', d.verificacao || `<code>check.sh ${String(d.n).padStart(2,'0')}</code>`]], ['',''])}</div>
   </div></div>`;
 }
 </script>
@@ -437,7 +437,7 @@ relatorio-v2-FINAL-revisado-AGORA-VAI.docx</pre></div>
           ], ['','' ])}
         </div>
         <div class="stack">
-          <div class="callout"><strong>Nesta aula</strong>, os desafios 1 a 13 usam o Git localmente no Codespace. No 14, você publica um repositório no GitHub; no 15, abre um pull request.</div>
+          <div class="callout"><strong>Nesta aula</strong>, os desafios 1 a 13 usam o Git localmente no Codespace. No 14, você publica um repositório no GitHub; no 15, abre um pull request; no 16, contribui com outro projeto usando um fork.</div>
           <div class="callout"><strong>Codespace</strong> — é um VS Code com terminal Linux rodando num servidor do GitHub. Serve para não instalar nada; o Git que você usa lá é o mesmo do seu computador.</div>
           <div class="box soft"><h3>Para ler depois</h3>${docs([L.pg_vcs, L.pg_hist, L.pg_oque, L.gh_about])}</div>
         </div>
@@ -474,6 +474,17 @@ D.push({n:0, key:'00', title:'Configure sua identidade', mod:'Abertura', time:3,
           ['pull.rebase=false','<code>git pull</code> integra com um merge, como vamos aprender'],
         ], ['Config','Para quê'])}</div>
       </div></div>`},
+    {h:'Comandos & documentação', eyebrow:'Referência', body:`
+      <div class="cols s2">
+        ${kv([
+          ['git config --global <chave> <valor>','grava no ~/.gitconfig'],
+          ['git config <chave>','mostra o valor efetivo na pasta atual'],
+          ['git config --global --list','lista a configuração global'],
+          ['git config --list --show-origin','lista tudo, com o arquivo de origem'],
+          ['git config --local --unset <chave>','remove uma chave do repositório'],
+        ])}
+        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_config, L.r_config, L.gh_email])}</div>
+      </div>`},
     {h:'O desafio', eyebrow:'Tarefa · 3 min', body:`
       <div class="cols s2"><div class="stack">${steps([
         `<div class="t">Nome (o seu, não o do exemplo):</div>${cmd('$ git config --global user.name "Fulano de Tal"')}`,
@@ -487,17 +498,6 @@ $ git config user.email          # sem nível: o que vale aqui
 $ git config --global user.email # continua o seu
 $ git config --local --unset user.email`)}</div>
       </div></div>`},
-    {h:'Comandos & documentação', eyebrow:'Referência', body:`
-      <div class="cols s2">
-        ${kv([
-          ['git config --global <chave> <valor>','grava no ~/.gitconfig'],
-          ['git config <chave>','mostra o valor efetivo na pasta atual'],
-          ['git config --global --list','lista a configuração global'],
-          ['git config --list --show-origin','lista tudo, com o arquivo de origem'],
-          ['git config --local --unset <chave>','remove uma chave do repositório'],
-        ])}
-        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_config, L.r_config, L.gh_email])}</div>
-      </div>`},
   ]});
 
 /* 1 */
@@ -532,17 +532,6 @@ D.push({n:1, key:'01', title:'Meu primeiro repositório', mod:'Módulo 1 · Fund
         </div>
         <div class="callout"><strong>Ciclo de vida de um arquivo</strong> — untracked → <code>add</code> → staged → <code>commit</code> → committed → você edita → modified → <code>add</code> → staged → …</div>
       </div>`},
-    {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
-      <div class="cols s2"><div class="stack">${steps([
-        `<div class="t">Inicie o repositório e veja como o Git enxerga a pasta (três arquivos <em>untracked</em>):</div>${cmd('$ git init\n$ git status')}`,
-        `<div class="t">Adicione <strong>um</strong> arquivo e rode <code>status</code> de novo: ele muda de seção.</div>${cmd('$ git add bolo-de-cenoura.md\n$ git status')}`,
-        `<div class="t">Adicione os outros dois e faça o primeiro commit:</div>${cmd('$ git add .\n$ git commit -m "Cria o livro de receitas"')}`,
-        `<div class="t">Árvore limpa e um commit no histórico:</div>${cmd('$ git status\n$ git log')}`,
-      ])}</div><div class="stack">
-        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 01')}<p style="margin-top:10px;color:var(--muted)">Aprova com ≥ 1 commit e árvore de trabalho limpa.</p></div>
-        <div class="callout"><strong>Confira o <code>git status</code> depois de cada passo.</strong> Observe a passagem de <em>Untracked files</em> para <em>Changes to be committed</em> e, após o commit, a mensagem <em>nothing to commit</em>.</div>
-        <div class="box soft"><h3>Missão extra</h3><p>Use <code>ls -a</code> para ver a pasta <code>.git</code>, que guarda os dados do repositório. Apagá-la deixa apenas os arquivos da pasta, sem o histórico Git. Mantenha-a para continuar o exercício.</p></div>
-      </div></div>`},
     {h:'Comandos & documentação', eyebrow:'Referência', body:`
       <div class="cols s2">
         ${kv([
@@ -555,6 +544,17 @@ D.push({n:1, key:'01', title:'Meu primeiro repositório', mod:'Módulo 1 · Fund
         ])}
         <div class="box soft"><h3>Documentação</h3>${docs([L.pg_oque, L.pg_obtendo, L.pg_gravando, L.r_init, L.r_status, L.r_add, L.r_commit])}</div>
       </div>`},
+    {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Inicie o repositório e veja como o Git enxerga a pasta (três arquivos <em>untracked</em>):</div>${cmd('$ git init\n$ git status')}`,
+        `<div class="t">Adicione <strong>um</strong> arquivo e rode <code>status</code> de novo: ele muda de seção.</div>${cmd('$ git add bolo-de-cenoura.md\n$ git status')}`,
+        `<div class="t">Adicione os outros dois e faça o primeiro commit:</div>${cmd('$ git add .\n$ git commit -m "Cria o livro de receitas"')}`,
+        `<div class="t">Árvore limpa e um commit no histórico:</div>${cmd('$ git status\n$ git log')}`,
+      ])}</div><div class="stack">
+        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 01')}<p style="margin-top:10px;color:var(--muted)">Aprova com ≥ 1 commit e árvore de trabalho limpa.</p></div>
+        <div class="callout"><strong>Confira o <code>git status</code> depois de cada passo.</strong> Observe a passagem de <em>Untracked files</em> para <em>Changes to be committed</em> e, após o commit, a mensagem <em>nothing to commit</em>.</div>
+        <div class="box soft"><h3>Missão extra</h3><p>Use <code>ls -a</code> para ver a pasta <code>.git</code>, que guarda os dados do repositório. Apagá-la deixa apenas os arquivos da pasta, sem o histórico Git. Mantenha-a para continuar o exercício.</p></div>
+      </div></div>`},
   ]});
 
 /* 2 */
@@ -602,16 +602,6 @@ D.push({n:2, key:'02', title:'Registrando mudanças', mod:'Módulo 2 · Registra
 > 1f0e6d5 Cria o livro de receitas`)}</div>
         <div class="callout"><strong>Atalho</strong> — <code>git commit -am "..."</code> faz <code>add</code> e <code>commit</code> de uma vez, mas <strong>só para arquivos que o Git já rastreia</strong>. Arquivo novo continua precisando de <code>git add</code>.</div>
       </div></div>`},
-    {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
-      <div class="cols s2"><div class="stack">${steps([
-        `<div class="t">Abra uma receita no editor e mude algo (um ingrediente, uma quantidade, um passo). Veja a diferença:</div>${cmd('$ git diff')}`,
-        `<div class="t">Adicione a mudança à staging area e compare: ela deixa de aparecer em <code>diff</code> e passa a aparecer em <code>diff --staged</code>.</div>${cmd('$ git add bolo-de-cenoura.md\n$ git diff\n$ git diff --staged')}`,
-        `<div class="t">Faça o commit com uma mensagem que descreva <strong>o que</strong> mudou:</div>${cmd('$ git commit -m "Adiciona canela ao bolo de cenoura"')}`,
-        `<div class="t">Repita até ter <strong>três commits novos</strong>, cada um com mensagem diferente e descritiva. Depois:</div>${cmd('$ git log --oneline')}`,
-      ])}</div><div class="stack">
-        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 02')}<p style="margin-top:10px;color:var(--muted)">Aprova com ≥ 4 commits, mensagens distintas e árvore limpa.</p></div>
-        <div class="box soft"><h3>Missão extra</h3><p><code>git log -p</code> mostra o diff de cada commit; <code>git log --stat</code> resume quais arquivos e quantas linhas.</p></div>
-      </div></div>`},
     {h:'Comandos & documentação', eyebrow:'Referência', body:`
       <div class="cols s2">
         ${kv([
@@ -624,6 +614,16 @@ D.push({n:2, key:'02', title:'Registrando mudanças', mod:'Módulo 2 · Registra
         ])}
         <div class="box soft"><h3>Documentação</h3>${docs([L.pg_gravando, L.pg_hist_c, L.r_diff, L.r_commit, L.r_log])}</div>
       </div>`},
+    {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Abra uma receita no editor e mude algo (um ingrediente, uma quantidade, um passo). Veja a diferença:</div>${cmd('$ git diff')}`,
+        `<div class="t">Adicione a mudança à staging area e compare: ela deixa de aparecer em <code>diff</code> e passa a aparecer em <code>diff --staged</code>.</div>${cmd('$ git add bolo-de-cenoura.md\n$ git diff\n$ git diff --staged')}`,
+        `<div class="t">Faça o commit com uma mensagem que descreva <strong>o que</strong> mudou:</div>${cmd('$ git commit -m "Adiciona canela ao bolo de cenoura"')}`,
+        `<div class="t">Repita até ter <strong>três commits novos</strong>, cada um com mensagem diferente e descritiva. Depois:</div>${cmd('$ git log --oneline')}`,
+      ])}</div><div class="stack">
+        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 02')}<p style="margin-top:10px;color:var(--muted)">Aprova com ≥ 4 commits, mensagens distintas e árvore limpa.</p></div>
+        <div class="box soft"><h3>Missão extra</h3><p><code>git log -p</code> mostra o diff de cada commit; <code>git log --stat</code> resume quais arquivos e quantas linhas.</p></div>
+      </div></div>`},
   ]});
 </script>
 <script>
@@ -654,6 +654,16 @@ D.push({n:3, key:'03', title:'Commit cirúrgico', mod:'Módulo 2b · Staging sel
           <div class="box lift"><h3>E quando as duas mudanças estão no mesmo arquivo?</h3><p><code>git add -p</code> mostra cada trecho (<em>hunk</em>) e pergunta um por um: <code>y</code> inclui, <code>n</code> deixa de fora, <code>s</code> divide o trecho, <code>q</code> sai. A staging passa a ter <strong>parte</strong> do arquivo.</p></div>
         </div>
       </div>`},
+    {h:'Comandos & documentação', eyebrow:'Referência', body:`
+      <div class="cols s2">
+        ${kv([
+          ['git add <arquivo>','só aquele arquivo vai para a staging'],
+          ['git add -p [arquivo]','pergunta trecho por trecho: y / n / s (dividir) / q (sair) / ? (ajuda)'],
+          ['git log --oneline --stat','cada commit com a lista de arquivos tocados'],
+          ['git diff --staged','confirme o que vai entrar antes de commitar'],
+        ])}
+        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_stage, L.pg_gravando, L.r_add, L.r_log])}</div>
+      </div>`},
     {h:'O desafio', eyebrow:'Tarefa · 5 min', body:`
       <div class="cols s2"><div class="stack">
         <p class="lead">Faça um commit para <strong>cada arquivo</strong>, adicionando à staging area apenas o arquivo que deve entrar naquele commit:</p>
@@ -675,16 +685,6 @@ $ git commit -m "Adiciona pitada de sal ao brigadeiro"`)}
           'Faça o commit do primeiro trecho. Depois use <code>git add</code> para adicionar o segundo trecho e faça outro commit.',
         ])}<p style="margin-top:10px;color:var(--muted)">A verificação reconhece a missão extra quando <code>pao-de-queijo.md</code> aparece em dois commits.</p></div>
       </div></div>`},
-    {h:'Comandos & documentação', eyebrow:'Referência', body:`
-      <div class="cols s2">
-        ${kv([
-          ['git add <arquivo>','só aquele arquivo vai para a staging'],
-          ['git add -p [arquivo]','pergunta trecho por trecho: y / n / s (dividir) / q (sair) / ? (ajuda)'],
-          ['git log --oneline --stat','cada commit com a lista de arquivos tocados'],
-          ['git diff --staged','confirme o que vai entrar antes de commitar'],
-        ])}
-        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_stage, L.pg_gravando, L.r_add, L.r_log])}</div>
-      </div>`},
   ]});
 
 /* 4 */
@@ -716,6 +716,17 @@ D.push({n:4, key:'04', title:'Ignorando o que não importa', mod:'Módulo 2b · 
           </div>
         </div>
       </div>`},
+    {h:'Comandos & documentação', eyebrow:'Referência', body:`
+      <div class="cols s2">
+        ${kv([
+          ['.gitignore','arquivo de texto na raiz (ou em subpastas), um padrão por linha; versionado'],
+          ['git check-ignore -v <arquivos>','qual linha de qual .gitignore está ignorando cada um'],
+          ['git rm --cached <arquivo>','tira da staging/repositório mas mantém no disco'],
+          ['git ls-files','lista o que o Git rastreia'],
+          ['git status --ignored','mostra também os ignorados'],
+        ])}
+        <div class="box soft"><h3>Documentação</h3>${docs([L.r_ignore, L.gh_ignore, L.gh_tpl, L.r_chk, L.r_rm])}</div>
+      </div>`},
     {h:'O desafio', eyebrow:'Tarefa · 5 min · pode ficar para depois da aula', body:`
       <div class="cols s2"><div class="stack">${steps([
         `<div class="t">Crie <code>.gitignore</code> na raiz, um padrão por linha:</div>${cmd(`*.log
@@ -734,17 +745,6 @@ $ git commit -m "Para de rastrear antigo.log"
 $ ls antigo.log     # continua aqui`)}</div>
         <div class="callout warn"><strong>⏱ Pode ficar para depois da aula.</strong> Se houver 5 min de atraso ao fim do módulo 2b, deixe este desafio como tarefa de casa.</div>
       </div></div>`},
-    {h:'Comandos & documentação', eyebrow:'Referência', body:`
-      <div class="cols s2">
-        ${kv([
-          ['.gitignore','arquivo de texto na raiz (ou em subpastas), um padrão por linha; versionado'],
-          ['git check-ignore -v <arquivos>','qual linha de qual .gitignore está ignorando cada um'],
-          ['git rm --cached <arquivo>','tira da staging/repositório mas mantém no disco'],
-          ['git ls-files','lista o que o Git rastreia'],
-          ['git status --ignored','mostra também os ignorados'],
-        ])}
-        <div class="box soft"><h3>Documentação</h3>${docs([L.r_ignore, L.gh_ignore, L.gh_tpl, L.r_chk, L.r_rm])}</div>
-      </div>`},
   ]});
 
 /* 5 */
@@ -777,6 +777,18 @@ D.push({n:5, key:'05', title:'Detetive do histórico', mod:'Módulo 3 · Histór
           ['git log --author=Carla','commits de uma pessoa'],
         ])}</div>
       </div></div>`},
+    {h:'Comandos & documentação', eyebrow:'Referência', body:`
+      <div class="cols s2">
+        ${kv([
+          ['git log --oneline --graph --all --decorate','o desenho do histórico com branches e ponteiros — deixe na tela o resto da aula'],
+          ['git log -p','com o diff de cada commit'],
+          ['git log --stat','resumo de arquivos e linhas por commit'],
+          ['git log -S"texto"','"pickaxe": quando esse texto apareceu ou sumiu'],
+          ['git log --since="2 weeks"','filtros por data; também --until, --grep'],
+          ['git blame -L 4,4 arquivo.md','blame só de um intervalo de linhas'],
+        ])}
+        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_hist_c, L.pg_search, L.r_log, L.r_show, L.r_blame])}</div>
+      </div>`},
     {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
       <div class="cols s2"><div class="stack">
         <p class="lead">Abra <code>respostas.txt</code> e preencha as três linhas que começam com <code>R:</code>. Não precisa commitar.</p>
@@ -794,18 +806,6 @@ D.push({n:5, key:'05', title:'Detetive do histórico', mod:'Módulo 3 · Histór
         ], ['#','Resposta'])}</details>
         <div class="box soft"><h3>Missão extra</h3>${cmd('$ git log --oneline --graph --all --decorate\n$ git log --stat --author=Bruno')}<p style="margin-top:8px;color:var(--muted)">Qual foi o arquivo mais mexido por Bruno?</p></div>
       </div></div>`},
-    {h:'Comandos & documentação', eyebrow:'Referência', body:`
-      <div class="cols s2">
-        ${kv([
-          ['git log --oneline --graph --all --decorate','o desenho do histórico com branches e ponteiros — deixe na tela o resto da aula'],
-          ['git log -p','com o diff de cada commit'],
-          ['git log --stat','resumo de arquivos e linhas por commit'],
-          ['git log -S"texto"','"pickaxe": quando esse texto apareceu ou sumiu'],
-          ['git log --since="2 weeks"','filtros por data; também --until, --grep'],
-          ['git blame -L 4,4 arquivo.md','blame só de um intervalo de linhas'],
-        ])}
-        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_hist_c, L.pg_search, L.r_log, L.r_show, L.r_blame])}</div>
-      </div>`},
   ]});
 
 /* 6 */
@@ -824,17 +824,6 @@ D.push({n:6, key:'06', title:'Desfazendo antes do commit', mod:'Módulo 3b · De
         <div class="callout warn"><strong>restore descarta as alterações sem pedir confirmação.</strong> Antes de usar, confira o <code>git diff</code> e confirme que quer descartar essas mudanças. Alterações nunca commitadas não estão registradas no histórico para recuperação.</div>
         <p style="color:var(--muted)">Na internet você vai encontrar as formas antigas: <code>git checkout -- arquivo</code> e <code>git reset HEAD arquivo</code>. Fazem o mesmo; <code>restore</code> existe desde 2019 justamente para separar essas duas ideias.</p>
       </div>`},
-    {h:'O desafio', eyebrow:'Tarefa · 5 min', body:`
-      <div class="cols s2"><div class="stack">${steps([
-        `<div class="t">Confira as duas alterações feitas por engano:</div>${cmd('$ git status\n$ git diff')}`,
-        `<div class="t">Descarte a mudança no bolo, trazendo de volta a versão do último commit:</div>${cmd('$ git restore bolo-de-cenoura.md\n$ cat bolo-de-cenoura.md')}`,
-        `<div class="t">Tire as notas da staging, sem apagar o arquivo do disco. Ele continua na pasta, agora como <em>untracked</em>:</div>${cmd('$ git restore --staged notas-pessoais.md\n$ git status')}`,
-        `<div class="t"><strong>Não faça commit.</strong> O desafio termina com a árvore igual ao último commit, mais o arquivo de notas não rastreado.</div>`,
-      ])}</div><div class="stack">
-        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 06')}</div>
-        <div class="callout"><strong>Leia as sugestões do <code>git status</code>.</strong> A saída indica os comandos para descartar uma alteração ou retirá-la da staging area ("use git restore…").</div>
-        <div class="box soft"><h3>Missão extra</h3><p>Adicione <code>notas-pessoais.md</code> a um <code>.gitignore</code> para que nunca mais apareça como não rastreado.</p></div>
-      </div></div>`},
     {h:'Comandos & documentação', eyebrow:'Referência', body:`
       <div class="cols s2">
         ${kv([
@@ -846,6 +835,17 @@ D.push({n:6, key:'06', title:'Desfazendo antes do commit', mod:'Módulo 3b · De
         ])}
         <div class="box soft"><h3>Documentação</h3>${docs([L.pg_desfaz, L.r_restore, L.r_status])}</div>
       </div>`},
+    {h:'O desafio', eyebrow:'Tarefa · 5 min', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Confira as duas alterações feitas por engano:</div>${cmd('$ git status\n$ git diff')}`,
+        `<div class="t">Descarte a mudança no bolo, trazendo de volta a versão do último commit:</div>${cmd('$ git restore bolo-de-cenoura.md\n$ cat bolo-de-cenoura.md')}`,
+        `<div class="t">Tire as notas da staging, sem apagar o arquivo do disco. Ele continua na pasta, agora como <em>untracked</em>:</div>${cmd('$ git restore --staged notas-pessoais.md\n$ git status')}`,
+        `<div class="t"><strong>Não faça commit.</strong> O desafio termina com a árvore igual ao último commit, mais o arquivo de notas não rastreado.</div>`,
+      ])}</div><div class="stack">
+        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 06')}</div>
+        <div class="callout"><strong>Leia as sugestões do <code>git status</code>.</strong> A saída indica os comandos para descartar uma alteração ou retirá-la da staging area ("use git restore…").</div>
+        <div class="box soft"><h3>Missão extra</h3><p>Adicione <code>notas-pessoais.md</code> a um <code>.gitignore</code> para que nunca mais apareça como não rastreado.</p></div>
+      </div></div>`},
   ]});
 </script>
 <script>
@@ -879,16 +879,6 @@ D.push({n:7, key:'07', title:'Desfazendo depois do commit', mod:'Módulo 3b · D
         ], ['','' ])}</div>
         <div class="callout"><code>git revert</code> abre o VS Code com a mensagem pronta. <strong>Salve e feche a aba</strong> para concluir o commit; enquanto ela estiver aberta, o terminal aguarda o editor.</div>
       </div></div>`},
-    {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
-      <div class="cols s2"><div class="stack">${steps([
-        `<div class="t">Corrija a mensagem <strong>antes de fazer o revert</strong>, enquanto esse ainda é o último commit. Observe que o hash muda:</div>${cmd('$ git commit --amend -m "Adiciona receita de pudim"\n$ git log --oneline')}`,
-        `<div class="t">Ache o hash do commit do sal e desfaça-o. O editor abre com a mensagem pronta; salve e feche:</div>${cmd('$ git log --oneline\n$ git revert <hash-do-commit-do-sal>')}`,
-        `<div class="t">Confira: o brigadeiro voltou a ter manteiga, o commit do sal continua lá, e há um commit novo desfazendo-o.</div>${cmd('$ grep manteiga brigadeiro.md\n$ git log --oneline')}`,
-      ])}</div><div class="stack">
-        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 07')}</div>
-        <div class="callout warn"><strong>Faça o amend primeiro.</strong> Se fizer o revert antes, o amend alterará a mensagem dele, e o erro "pudin" permanecerá. Nesse caso, use <code>reset.sh 07</code> para recomeçar.</div>
-        <div class="box soft"><h3>Missão extra</h3><p>Confira as alterações do revert com <code>git show HEAD</code>. Depois use <code>git revert HEAD</code> para desfazer o próprio revert e repita <code>git revert HEAD</code> para voltar ao resultado anterior.</p></div>
-      </div></div>`},
     {h:'Comandos & documentação', eyebrow:'Referência', body:`
       <div class="cols s2">
         ${kv([
@@ -901,6 +891,16 @@ D.push({n:7, key:'07', title:'Desfazendo depois do commit', mod:'Módulo 3b · D
         ])}
         <div class="box soft"><h3>Documentação</h3>${docs([L.pg_desfaz, L.pg_rewrite, L.r_commit, L.r_revert])}</div>
       </div>`},
+    {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Corrija a mensagem <strong>antes de fazer o revert</strong>, enquanto esse ainda é o último commit. Observe que o hash muda:</div>${cmd('$ git commit --amend -m "Adiciona receita de pudim"\n$ git log --oneline')}`,
+        `<div class="t">Ache o hash do commit do sal e desfaça-o. O editor abre com a mensagem pronta; salve e feche:</div>${cmd('$ git log --oneline\n$ git revert <hash-do-commit-do-sal>')}`,
+        `<div class="t">Confira: o brigadeiro voltou a ter manteiga, o commit do sal continua lá, e há um commit novo desfazendo-o.</div>${cmd('$ grep manteiga brigadeiro.md\n$ git log --oneline')}`,
+      ])}</div><div class="stack">
+        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 07')}</div>
+        <div class="callout warn"><strong>Faça o amend primeiro.</strong> Se fizer o revert antes, o amend alterará a mensagem dele, e o erro "pudin" permanecerá. Nesse caso, use <code>reset.sh 07</code> para recomeçar.</div>
+        <div class="box soft"><h3>Missão extra</h3><p>Confira as alterações do revert com <code>git show HEAD</code>. Depois use <code>git revert HEAD</code> para desfazer o próprio revert e repita <code>git revert HEAD</code> para voltar ao resultado anterior.</p></div>
+      </div></div>`},
   ]});
 
 /* 8 */
@@ -932,6 +932,17 @@ $ cat .git/refs/heads/main
         <div class="box lift"><h3>Fast-forward</h3><p>A <code>main</code> não recebeu nenhum commit enquanto isso, então a história da branch é uma continuação direta. O Git <strong>só move o ponteiro</strong>: nenhum commit de merge é criado.</p></div>
         <div class="box"><h3>Depois do merge</h3><p><code>main</code> e <code>feature/sobremesas</code> apontam para o <strong>mesmo</strong> commit. Uma branch já integrada pode ser apagada; você fará isso no desafio 9.</p></div>
       </div>`},
+    {h:'Comandos & documentação', eyebrow:'Referência', body:`
+      <div class="cols s2">
+        ${kv([
+          ['git branch','lista as branches; * marca a atual'],
+          ['git switch -c <nome>','cria a branch e muda para ela'],
+          ['git switch <nome>','muda para uma branch existente (antes: git checkout)'],
+          ['git merge <branch>','integra a branch indicada na atual'],
+          ['git log --oneline --graph --all --decorate','o desenho com todos os ponteiros'],
+        ])}
+        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_branch, L.pg_merge, L.pg_refs, L.r_switch, L.r_branch, L.r_merge, L.lgb])}</div>
+      </div>`},
     {h:'O desafio', eyebrow:'Tarefa · 5 min', body:`
       <div class="cols s2"><div class="stack">${steps([
         `<div class="t">Crie a branch e mude para ela de uma vez:</div>${cmd('$ git switch -c feature/sobremesas\n$ git branch')}`,
@@ -945,17 +956,6 @@ $ git commit -am "Adiciona mousse à lista"`)}`,
         <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 08')}<p style="margin-top:10px;color:var(--muted)">Aprova se a <code>main</code> tem os commits e <strong>não</strong> há commit de merge.</p></div>
         <div class="box soft"><h3>Missão extra</h3>${cmd('$ git log --oneline --all --decorate')}<p style="margin-top:8px;color:var(--muted)"><code>main</code> e <code>feature/sobremesas</code> apontam para o mesmo commit.</p></div>
       </div></div>`},
-    {h:'Comandos & documentação', eyebrow:'Referência', body:`
-      <div class="cols s2">
-        ${kv([
-          ['git branch','lista as branches; * marca a atual'],
-          ['git switch -c <nome>','cria a branch e muda para ela'],
-          ['git switch <nome>','muda para uma branch existente (antes: git checkout)'],
-          ['git merge <branch>','integra a branch indicada na atual'],
-          ['git log --oneline --graph --all --decorate','o desenho com todos os ponteiros'],
-        ])}
-        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_branch, L.pg_merge, L.pg_refs, L.r_switch, L.r_branch, L.r_merge, L.lgb])}</div>
-      </div>`},
   ]});
 
 /* 9 */
@@ -984,17 +984,6 @@ D.push({n:9, key:'09', title:'Caminhos que divergem', mod:'Módulo 4 · Branches
         <div class="box lift"><h3>git branch -d</h3><p>Após o merge, apagar a branch remove o <strong>ponteiro</strong>; os commits continuam alcançáveis pela <code>main</code>. O <code>-d</code> só aceita branches já integradas. Se o Git recusar, confira quais commits faltam integrar; <code>-D</code> força a exclusão mesmo nesse caso.</p></div>
         <div class="box"><h3>Por que alguns times usam --no-ff</h3><p>O gráfico mostra onde cada funcionalidade começou e terminou, e um <code>revert</code> do merge commit desfaz a funcionalidade inteira de uma vez.</p></div>
       </div>`},
-    {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
-      <div class="cols s2"><div class="stack">${steps([
-        `<div class="t">Veja a bifurcação:</div>${cmd('$ git log --oneline --graph --all')}`,
-        `<div class="t">Faça o merge. O Git abre o editor com a mensagem sugerida para o commit de merge. <strong>Salve e feche</strong> para concluir:</div>${cmd('$ git merge feature/bebidas')}`,
-        `<div class="t">O merge commit tem dois pais:</div>${cmd('$ git log --oneline --graph --all')}`,
-        `<div class="t">Apague a branch agora que seus commits foram integrados à <code>main</code>:</div>${cmd('$ git branch -d feature/bebidas\n$ git branch')}`,
-      ])}</div><div class="stack">
-        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 09')}<p style="margin-top:10px;color:var(--muted)">Aprova com merge commit presente e branch removida.</p></div>
-        <div class="callout"><strong>Terminal "travado" depois do merge?</strong> Está esperando o editor. Procure a aba <code>COMMIT_EDITMSG</code> no VS Code, salve e feche.</div>
-        <div class="box soft"><h3>Missão extra</h3><p><code>reset.sh 08</code> e refaça o desafio 8 com <code>git merge --no-ff feature/sobremesas</code>. Compare os gráficos.</p></div>
-      </div></div>`},
     {h:'Comandos & documentação', eyebrow:'Referência', body:`
       <div class="cols s2">
         ${kv([
@@ -1007,6 +996,17 @@ D.push({n:9, key:'09', title:'Caminhos que divergem', mod:'Módulo 4 · Branches
         ])}
         <div class="box soft"><h3>Documentação</h3>${docs([L.pg_merge, L.pg_gerbr, L.r_merge, L.r_branch, L.lgb])}</div>
       </div>`},
+    {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Veja a bifurcação:</div>${cmd('$ git log --oneline --graph --all')}`,
+        `<div class="t">Faça o merge. O Git abre o editor com a mensagem sugerida para o commit de merge. <strong>Salve e feche</strong> para concluir:</div>${cmd('$ git merge feature/bebidas')}`,
+        `<div class="t">O merge commit tem dois pais:</div>${cmd('$ git log --oneline --graph --all')}`,
+        `<div class="t">Apague a branch agora que seus commits foram integrados à <code>main</code>:</div>${cmd('$ git branch -d feature/bebidas\n$ git branch')}`,
+      ])}</div><div class="stack">
+        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 09')}<p style="margin-top:10px;color:var(--muted)">Aprova com merge commit presente e branch removida.</p></div>
+        <div class="callout"><strong>Terminal "travado" depois do merge?</strong> Está esperando o editor. Procure a aba <code>COMMIT_EDITMSG</code> no VS Code, salve e feche.</div>
+        <div class="box soft"><h3>Missão extra</h3><p><code>reset.sh 08</code> e refaça o desafio 8 com <code>git merge --no-ff feature/sobremesas</code>. Compare os gráficos.</p></div>
+      </div></div>`},
   ]});
 
 /* 10 */
@@ -1032,16 +1032,6 @@ D.push({n:10, key:'10', title:'Guardando para depois', mod:'Módulo 4b · Stash'
           <div class="box"><h3>Arquivos novos</h3><p>Por padrão o stash não guarda <em>untracked</em>. Use <code>git stash -u</code> para incluí-los.</p></div>
         </div>
       </div>`},
-    {h:'O desafio', eyebrow:'Tarefa · 5 min · pode ficar para depois da aula', body:`
-      <div class="cols s2"><div class="stack">${steps([
-        `<div class="t">Guarde o trabalho em andamento:</div>${cmd('$ git stash\n$ git status        # árvore limpa\n$ git stash list    # um item')}`,
-        `<div class="t">Vá para a <code>main</code>, corrija a temperatura de 1800 para 180 em <code>bolo-de-cenoura.md</code> e faça o commit:</div>${cmd('$ git switch main\n# edite: 1800 -> 180\n$ git commit -am "Corrige temperatura do forno do bolo"')}`,
-        `<div class="t">Volte para <code>feature/sopas</code>, recupere a edição e confira o resultado:</div>${cmd('$ git switch feature/sopas\n$ git stash pop\n$ git diff          # as batatas voltaram\n$ git stash list    # gaveta vazia')}`,
-      ])}</div><div class="stack">
-        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 10')}</div>
-        <div class="box soft"><h3>Missão extra</h3>${cmd('$ git stash push -m "descrição"\n$ git stash list\n$ git stash pop stash@{1}')}</div>
-        <div class="callout warn"><strong>⏱ Pode ficar para depois da aula.</strong> Se houver atraso, passe ao bloco de conflitos.</div>
-      </div></div>`},
     {h:'Comandos & documentação', eyebrow:'Referência', body:`
       <div class="cols s2">
         ${kv([
@@ -1055,6 +1045,16 @@ D.push({n:10, key:'10', title:'Guardando para depois', mod:'Módulo 4b · Stash'
         ])}
         <div class="box soft"><h3>Documentação</h3>${docs([L.pg_stash, L.r_stash])}</div>
       </div>`},
+    {h:'O desafio', eyebrow:'Tarefa · 5 min · pode ficar para depois da aula', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Guarde o trabalho em andamento:</div>${cmd('$ git stash\n$ git status        # árvore limpa\n$ git stash list    # um item')}`,
+        `<div class="t">Vá para a <code>main</code>, corrija a temperatura de 1800 para 180 em <code>bolo-de-cenoura.md</code> e faça o commit:</div>${cmd('$ git switch main\n# edite: 1800 -> 180\n$ git commit -am "Corrige temperatura do forno do bolo"')}`,
+        `<div class="t">Volte para <code>feature/sopas</code>, recupere a edição e confira o resultado:</div>${cmd('$ git switch feature/sopas\n$ git stash pop\n$ git diff          # as batatas voltaram\n$ git stash list    # gaveta vazia')}`,
+      ])}</div><div class="stack">
+        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 10')}</div>
+        <div class="box soft"><h3>Missão extra</h3>${cmd('$ git stash push -m "descrição"\n$ git stash list\n$ git stash pop stash@{1}')}</div>
+        <div class="callout warn"><strong>⏱ Pode ficar para depois da aula.</strong> Se houver atraso, passe ao bloco de conflitos.</div>
+      </div></div>`},
   ]});
 </script>
 <script>
@@ -1101,6 +1101,18 @@ Preço sugerido: R$ 48,00
         <div class="box"><h3>No VS Code</h3><p>Os botões acima do bloco permitem escolher <em>Accept Current</em> (HEAD), <em>Accept Incoming</em> (a outra branch) ou <em>Accept Both</em>. Você também pode editar o trecho manualmente.</p></div>
         <div class="callout warn"><strong>Para cancelar o merge</strong>, use <code>git merge --abort</code>. Neste exercício, o comando restaura o estado anterior à tentativa de merge.</div>
       </div></div>`},
+    {h:'Comandos & documentação', eyebrow:'Referência', body:`
+      <div class="cols s2">
+        ${kv([
+          ['git merge <branch>','tenta integrar; para em CONFLICT se preciso'],
+          ['git status','lista "both modified": os arquivos a resolver'],
+          ['git diff','durante o merge, mostra só os trechos em conflito'],
+          ['git add <arquivo>','marca o arquivo como resolvido'],
+          ['git commit','conclui o merge (mensagem já preenchida)'],
+          ['git merge --abort','desiste e volta ao estado anterior'],
+        ])}
+        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_merge, L.gh_conflict, L.r_merge])}</div>
+      </div>`},
     {h:'O desafio', eyebrow:'Tarefa · 7 min', body:`
       <div class="cols s2"><div class="stack">${steps([
         `<div class="t">Veja a bifurcação e o que difere:</div>${cmd('$ git log --oneline --graph --all\n$ git diff main ajuste-preco')}`,
@@ -1116,18 +1128,6 @@ $ git merge ajuste-preco      # conflito de novo
 $ git merge --abort           # como se nada tivesse acontecido
 $ git status                  # limpo`)}<p style="margin-top:8px;color:var(--muted)">Depois resolva de novo para concluir o desafio.</p></div>
       </div></div>`},
-    {h:'Comandos & documentação', eyebrow:'Referência', body:`
-      <div class="cols s2">
-        ${kv([
-          ['git merge <branch>','tenta integrar; para em CONFLICT se preciso'],
-          ['git status','lista "both modified": os arquivos a resolver'],
-          ['git diff','durante o merge, mostra só os trechos em conflito'],
-          ['git add <arquivo>','marca o arquivo como resolvido'],
-          ['git commit','conclui o merge (mensagem já preenchida)'],
-          ['git merge --abort','desiste e volta ao estado anterior'],
-        ])}
-        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_merge, L.gh_conflict, L.r_merge])}</div>
-      </div>`},
   ]});
 
 /* remote diagram helper */
@@ -1176,18 +1176,6 @@ D.push({n:12, key:'12', title:'O colega invisível', mod:'Módulo 6 · Remotos',
 > hint: that you do not have locally.`)}</div>
         <div class="callout"><strong>O push foi rejeitado para preservar o commit do colega.</strong> O envio normal precisa ser fast-forward no remoto. Como os históricos divergiram, integre com <code>pull</code> antes de publicar. Neste desafio, as mudanças estão em arquivos diferentes e não geram conflito.</div>
       </div>`},
-    {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
-      <div class="cols s2"><div class="stack">${steps([
-        `<div class="t">Acrescente um dia ao <code>cardapio.md</code> e faça o commit. O <code>status</code> indica que sua branch está 1 commit à frente de origin/main:</div>${cmd('$ git commit -am "Adiciona a quinta ao cardápio"\n$ git status')}`,
-        `<div class="t">Enquanto isso, o colega publica uma mudança em <code>avisos.md</code>:</div>${cmd('$ colega.sh 12')}`,
-        `<div class="t">Tente publicar seu commit e leia a mensagem de rejeição:</div>${cmd('$ git push')}`,
-        `<div class="t">Baixe e integre o commit do colega. Salve e feche o editor para concluir o commit de merge:</div>${cmd('$ git pull\n$ git log --oneline --graph')}`,
-        `<div class="t">Publique os commits integrados e confira a sincronização:</div>${cmd('$ git push\n$ git status          # up to date')}`,
-      ])}</div><div class="stack">
-        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 12')}<p style="margin-top:10px;color:var(--muted)">Aprova quando o remoto tem os dois commits.</p></div>
-        <div class="box soft"><h3>Missão extra</h3>${cmd('$ git log --oneline origin/main\n$ git branch -r\n$ git fetch       # nada muda: já sincronizado')}</div>
-        <div class="callout"><strong>"Need to specify how to reconcile divergent branches"?</strong> Falta <code>git config --global pull.rebase false</code> (o instalador já faz isso).</div>
-      </div></div>`},
     {h:'Comandos & documentação', eyebrow:'Referência', body:`
       <div class="cols s2">
         ${kv([
@@ -1201,6 +1189,18 @@ D.push({n:12, key:'12', title:'O colega invisível', mod:'Módulo 6 · Remotos',
         ])}
         <div class="box soft"><h3>Documentação</h3>${docs([L.pg_remotos, L.pg_remotebr, L.r_remote, L.r_fetch, L.r_pull, L.r_push])}</div>
       </div>`},
+    {h:'O desafio', eyebrow:'Tarefa · 6 min', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Acrescente um dia ao <code>cardapio.md</code> e faça o commit. O <code>status</code> indica que sua branch está 1 commit à frente de origin/main:</div>${cmd('$ git commit -am "Adiciona a quinta ao cardápio"\n$ git status')}`,
+        `<div class="t">Enquanto isso, o colega publica uma mudança em <code>avisos.md</code>:</div>${cmd('$ colega.sh 12')}`,
+        `<div class="t">Tente publicar seu commit e leia a mensagem de rejeição:</div>${cmd('$ git push')}`,
+        `<div class="t">Baixe e integre o commit do colega. Salve e feche o editor para concluir o commit de merge:</div>${cmd('$ git pull\n$ git log --oneline --graph')}`,
+        `<div class="t">Publique os commits integrados e confira a sincronização:</div>${cmd('$ git push\n$ git status          # up to date')}`,
+      ])}</div><div class="stack">
+        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 12')}<p style="margin-top:10px;color:var(--muted)">Aprova quando o remoto tem os dois commits.</p></div>
+        <div class="box soft"><h3>Missão extra</h3>${cmd('$ git log --oneline origin/main\n$ git branch -r\n$ git fetch       # nada muda: já sincronizado')}</div>
+        <div class="callout"><strong>"Need to specify how to reconcile divergent branches"?</strong> Falta <code>git config --global pull.rebase false</code> (o instalador já faz isso).</div>
+      </div></div>`},
   ]});
 
 /* 13 */
@@ -1223,6 +1223,18 @@ D.push({n:13, key:'13', title:'Conflito com o colega', mod:'Módulo 6 · Remotos
         <div class="box lift"><h3>fetch permite consultar antes de integrar</h3><p>O comando baixa os objetos e atualiza <code>origin/main</code>, mantendo seus arquivos e sua <code>main</code> intactos. Assim, você pode examinar as mudanças antes de decidir como integrá-las.</p></div>
         <div class="callout"><strong>Você também pode usar pull diretamente.</strong> Neste exercício, porém, use <code>fetch</code> e <code>log main..origin/main</code> para ler as mudanças do colega antes de iniciar a integração.</div>
       </div></div>`},
+    {h:'Comandos & documentação', eyebrow:'Referência', body:`
+      <div class="cols s2">
+        ${kv([
+          ['git fetch','baixa e atualiza origin/*; nunca altera seus arquivos'],
+          ['git log A..B','commits em B que não estão em A'],
+          ['git diff A B','diferença entre dois commits/branches'],
+          ['git status','ahead / behind / diverged em relação ao upstream'],
+          ['git pull','fetch + merge (pode dar conflito)'],
+          ['git push','publica, se for fast-forward no remoto'],
+        ])}
+        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_rev, L.r_revs, L.pg_remotebr, L.r_fetch, L.gh_conflict])}</div>
+      </div>`},
     {h:'O desafio', eyebrow:'Tarefa · 7 min', body:`
       <div class="cols s2"><div class="stack">${steps([
         `<div class="t">Mude o preço do bolo para <strong>R$ 50,00</strong> em <code>bolo-de-cenoura.md</code> e faça o commit:</div>${cmd('$ git commit -am "Atualiza preço do bolo para R$ 50,00"')}`,
@@ -1237,18 +1249,6 @@ $ git diff main origin/main           # o que muda`)}`,
         <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 13')}<p style="margin-top:10px;color:var(--muted)">Aprova com o remoto atualizado e sem marcadores.</p></div>
         <div class="box soft"><h3>Missão extra</h3><p>Como você explicaria ao colega a escolha do preço final? Registre a decisão na mensagem do merge commit com <code>git commit --amend</code> logo após o merge, <strong>antes</strong> do push. Confira com <code>git log -1</code>.</p></div>
       </div></div>`},
-    {h:'Comandos & documentação', eyebrow:'Referência', body:`
-      <div class="cols s2">
-        ${kv([
-          ['git fetch','baixa e atualiza origin/*; nunca altera seus arquivos'],
-          ['git log A..B','commits em B que não estão em A'],
-          ['git diff A B','diferença entre dois commits/branches'],
-          ['git status','ahead / behind / diverged em relação ao upstream'],
-          ['git pull','fetch + merge (pode dar conflito)'],
-          ['git push','publica, se for fast-forward no remoto'],
-        ])}
-        <div class="box soft"><h3>Documentação</h3>${docs([L.pg_rev, L.r_revs, L.pg_remotebr, L.r_fetch, L.gh_conflict])}</div>
-      </div>`},
   ]});
 
 /* 14 */
@@ -1272,6 +1272,17 @@ D.push({n:14, key:'14', title:'Publique no GitHub', mod:'Módulo 6 · Remotos', 
           <div class="box"><h3>HTTPS no Codespace</h3><p>A autenticação é feita pelo próprio Codespace: se o VS Code pedir para autorizar acesso ao GitHub, aceite. Fora dele, seria um token ou chave SSH.</p></div>
         </div>
       </div>`},
+    {h:'Comandos & documentação', eyebrow:'Referência', body:`
+      <div class="cols s2">
+        ${kv([
+          ['git remote add <nome> <url>','registra um remoto'],
+          ['git remote -v','lista remotos e URLs'],
+          ['git remote set-url origin <url>','corrige a URL'],
+          ['git push -u origin main','publica e define o upstream'],
+          ['git branch -vv','mostra o upstream de cada branch'],
+        ])}
+        <div class="box soft"><h3>Documentação</h3>${docs([L.gh_newrepo, L.gh_addlocal, L.pg_remotos, L.r_remote, L.r_push])}</div>
+      </div>`},
     {h:'O desafio', eyebrow:'Tarefa · 5 min', body:`
       <div class="cols s2"><div class="stack">${steps([
         `<div class="t">Crie <code>aprendizados.md</code> com <strong>três</strong> coisas que você aprendeu hoje e faça o commit:</div>${cmd('$ git add aprendizados.md\n$ git commit -m "Adiciona meus aprendizados do curso"')}`,
@@ -1286,17 +1297,6 @@ D.push({n:14, key:'14', title:'Publique no GitHub', mod:'Módulo 6 · Remotos', 
           ['criado com README','push rejeitado: <code>git pull --allow-unrelated-histories origin main</code> e depois <code>git push -u origin main</code>, ou criar outro repositório vazio'],
         ], ['Sintoma','Solução'])}</div>
       </div></div>`},
-    {h:'Comandos & documentação', eyebrow:'Referência', body:`
-      <div class="cols s2">
-        ${kv([
-          ['git remote add <nome> <url>','registra um remoto'],
-          ['git remote -v','lista remotos e URLs'],
-          ['git remote set-url origin <url>','corrige a URL'],
-          ['git push -u origin main','publica e define o upstream'],
-          ['git branch -vv','mostra o upstream de cada branch'],
-        ])}
-        <div class="box soft"><h3>Documentação</h3>${docs([L.gh_newrepo, L.gh_addlocal, L.pg_remotos, L.r_remote, L.r_push])}</div>
-      </div>`},
   ]});
 
 /* 15 */
@@ -1327,18 +1327,6 @@ D.push({n:15, key:'15', title:'Seu primeiro pull request', mod:'Módulo 7 · Flu
           </div>
         </div>
       </div>`},
-    {h:'O desafio', eyebrow:'Tarefa · 7 min · pode ficar para depois da aula', body:`
-      <div class="cols s2"><div class="stack">${steps([
-        `<div class="t">Crie uma branch, acrescente um quarto aprendizado em <code>aprendizados.md</code> e faça o commit:</div>${cmd('$ git switch -c mais-um-aprendizado\n# edite o arquivo\n$ git commit -am "Adiciona um quarto aprendizado"')}`,
-        `<div class="t">Publique a branch (o <code>-u</code> liga a local à remota):</div>${cmd('$ git push -u origin mais-um-aprendizado')}`,
-        `<div class="t">Abra o link do PR exibido no terminal ou clique em <strong>Compare &amp; pull request</strong> no GitHub. Escreva um título e clique em <strong>Create pull request</strong>. Na página do PR, clique em <strong>Merge pull request</strong> e depois em <strong>Confirm merge</strong>.</div>`,
-        `<div class="t">O merge aconteceu no GitHub. Sincronize a <code>main</code> local:</div>${cmd('$ git switch main\n$ git pull\n$ git log --oneline --graph -5')}`,
-        `<div class="t">Apague a cópia local da branch (o GitHub oferece um botão para a remota):</div>${cmd('$ git branch -d mais-um-aprendizado')}`,
-      ])}</div><div class="stack">
-        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 15')}<p style="margin-top:10px;color:var(--muted)">Aprova com a <code>main</code> sincronizada e a branch apagada.</p></div>
-        <div class="box soft"><h3>Missão extra · revisão de código</h3><p>Abra um segundo PR e, antes do merge, deixe um comentário numa linha do diff, na aba <strong>Files changed</strong>.</p></div>
-        <div class="callout warn"><strong>⏱ Pode ficar para depois da aula.</strong> Se houver atraso, deixe este desafio como tarefa de casa. Ao concluir, rode <code>check.sh 14</code> e <code>check.sh 15</code>, depois pare ou exclua o Codespace.</div>
-      </div></div>`},
     {h:'Comandos & documentação', eyebrow:'Referência', body:`
       <div class="cols s2">
         ${kv([
@@ -1350,9 +1338,100 @@ D.push({n:15, key:'15', title:'Seu primeiro pull request', mod:'Módulo 7 · Flu
         ])}
         <div class="box soft"><h3>Documentação</h3>${docs([L.gh_pr, L.gh_prnew, L.gh_prcom, L.pg_contrib, L.repo])}</div>
       </div>`},
+    {h:'O desafio', eyebrow:'Tarefa · 7 min · pode ficar para depois da aula', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Crie uma branch, acrescente um quarto aprendizado em <code>aprendizados.md</code> e faça o commit:</div>${cmd('$ git switch -c mais-um-aprendizado\n# edite o arquivo\n$ git commit -am "Adiciona um quarto aprendizado"')}`,
+        `<div class="t">Publique a branch (o <code>-u</code> liga a local à remota):</div>${cmd('$ git push -u origin mais-um-aprendizado')}`,
+        `<div class="t">Abra o link do PR exibido no terminal ou clique em <strong>Compare &amp; pull request</strong> no GitHub. Escreva um título e clique em <strong>Create pull request</strong>. Na página do PR, clique em <strong>Merge pull request</strong> e depois em <strong>Confirm merge</strong>.</div>`,
+        `<div class="t">O merge aconteceu no GitHub. Sincronize a <code>main</code> local:</div>${cmd('$ git switch main\n$ git pull\n$ git log --oneline --graph -5')}`,
+        `<div class="t">Apague a cópia local da branch (o GitHub oferece um botão para a remota):</div>${cmd('$ git branch -d mais-um-aprendizado')}`,
+      ])}</div><div class="stack">
+        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 15')}<p style="margin-top:10px;color:var(--muted)">Aprova com a <code>main</code> sincronizada e a branch apagada.</p></div>
+        <div class="box soft"><h3>Missão extra · revisão de código</h3><p>Abra um segundo PR e, antes do merge, deixe um comentário numa linha do diff, na aba <strong>Files changed</strong>.</p></div>
+        <div class="callout warn"><strong>⏱ Pode ficar para depois da aula.</strong> Se houver atraso, deixe este desafio como tarefa de casa e avance para o desafio 16. Ao concluir este PR, confira com <code>check.sh 15</code>.</div>
+      </div></div>`},
   ]});
 </script>
 <script>
+/* 16 */
+D.push({n:16, key:'16', title:'Contribua com um fork', mod:'Módulo 7 · Fluxo no GitHub', time:15, el:false, cmds:['fork','git clone','origin / upstream','pull request'],
+  slides:[
+    {h:'Contribua com um fork', body: cover({n:16,time:15,el:false,mod:'Módulo 7 · Fluxo no GitHub',verificacao:'Manual: link do PR no projeto original',cmds:['Fork','git clone','git remote add upstream','git push -u origin minha-pizza','pull request']},
+      'Adicionar uma receita a <a href="https://github.com/fsilva-alt/receitas-de-pizza" target="_blank" rel="noopener">fsilva-alt/receitas-de-pizza</a>: <strong>fork → clone → branch → commit → push → pull request</strong>.',
+      '<p>No navegador e no terminal do Codespace. Você cria <code>~/labs/16-contribua-com-um-fork</code> com <code>git clone</code>.</p>')},
+    {h:'Fork, clone e os dois remotos', eyebrow:'Conceito', body:`
+      <div class="stack">
+        <div class="flow">
+          <div class="node"><b>Projeto original</b><small>fsilva-alt/receitas-de-pizza · upstream</small></div>
+          <div class="arr"><span class="a">→</span>Fork no GitHub</div>
+          <div class="node hi"><b>Seu fork</b><small>SEU-USUARIO/receitas-de-pizza · origin</small></div>
+          <div class="arr"><span class="a">→</span>git clone</div>
+          <div class="node"><b>Seu Codespace</b><small>arquivos e histórico para trabalhar</small></div>
+        </div>
+        <div class="cols">
+          <div class="box"><h3>Fork</h3><p>Cópia na sua conta do GitHub, ligada ao projeto original. Você pode publicar branches nela.</p></div>
+          <div class="box"><h3>Clone</h3><p>Cópia local com arquivos e histórico. O <code>clone</code> configura <code>origin</code> para a URL usada.</p></div>
+          <div class="box lift"><h3>O caminho da contribuição</h3><p>Você faz <strong>push para origin</strong> e abre um <strong>PR para a main do original</strong>. O responsável pelo projeto revisa e decide sobre o merge.</p></div>
+        </div>
+        <div class="callout"><strong>upstream</strong> será o nome do remoto do projeto original. O <code>-u</code> do push configura a branch de acompanhamento, também chamada de upstream.</div>
+      </div>`},
+    {h:'Comandos & documentação', eyebrow:'Referência', body:`
+      <div class="cols s2">
+        ${kv([
+          ['Fork (no GitHub)','cria sua cópia do projeto na sua conta'],
+          ['git clone <url> <pasta>','baixa os arquivos e o histórico; configura origin'],
+          ['git remote add upstream <url>','registra o repositório original como outro remoto'],
+          ['git fetch upstream','busca atualizações do original'],
+          ['git switch -c minha-pizza','cria uma branch para a receita'],
+          ['git push -u origin minha-pizza','publica a branch no fork e configura o acompanhamento'],
+          ['compare across forks','seleciona o fork como origem e o original como destino do PR'],
+        ])}
+        <div class="box soft"><h3>Enunciado e documentação</h3>${docs([
+          {t:'Desafio 16 · Enunciado completo',href:'https://github.com/fsilva-alt/devops-git/blob/main/exercises/16-contribua-com-um-fork/README.md'},
+          L.pg_contrib, L.pg_obtendo, L.pg_remotos, L.gh_prnew,
+        ])}</div>
+      </div>`},
+    {h:'Faça o fork e clone sua cópia', eyebrow:'Tarefa · parte 1', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Abra <a href="https://github.com/fsilva-alt/receitas-de-pizza" target="_blank" rel="noopener">fsilva-alt/receitas-de-pizza</a> → <strong>Fork</strong>. Escolha sua conta em <strong>Owner</strong>, mantenha o nome e <strong>Copy the main branch only</strong>, e clique em <strong>Create fork</strong>.</div>`,
+        `<div class="t">No seu fork, veja a URL em <strong>Code → HTTPS</strong>. Substitua <code>seu-usuario</code> abaixo pelo seu usuário:</div>${cmd('$ USUARIO=seu-usuario\n$ mkdir -p ~/labs\n$ git clone "https://github.com/$USUARIO/receitas-de-pizza.git" ~/labs/16-contribua-com-um-fork\n$ cd ~/labs/16-contribua-com-um-fork')}`,
+        `<div class="t">Adicione o original como <code>upstream</code> e atualize a base:</div>${cmd('$ git remote add upstream https://github.com/fsilva-alt/receitas-de-pizza.git\n$ git fetch upstream\n$ git switch main\n$ git merge --ff-only upstream/main\n$ git remote -v')}`,
+      ])}</div><div class="stack">
+        <div class="box"><h3>Confira os endereços</h3><p><code>origin</code> → seu fork, onde você publica.</p><p><code>upstream</code> → projeto original, de onde você busca atualizações.</p></div>
+        <div class="callout"><strong>Já tem um fork?</strong> Abra a cópia existente na sua conta. A página deve mostrar “forked from fsilva-alt/receitas-de-pizza”.</div>
+      </div></div>`},
+    {h:'Escreva e publique sua receita', eyebrow:'Tarefa · parte 2', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Crie uma branch e abra um arquivo com seu usuário no nome:</div>${cmd('$ git switch -c minha-pizza\n$ code "pizza-$USUARIO.md"')}`,
+        `<div class="t">Escreva e salve uma receita com <strong>título, ingredientes com quantidades e modo de preparo numerado</strong>. Use <code>mucarela.md</code>, <code>calabresa.md</code> ou <code>portuguesa.md</code> como referência.</div>`,
+        `<div class="t">Revise e faça o commit:</div>${cmd('$ git status\n$ git add "pizza-$USUARIO.md"\n$ git diff --staged\n$ git commit -m "Adiciona minha receita de pizza"')}`,
+        `<div class="t">Publique no seu fork e confira a branch no GitHub:</div>${cmd('$ git push -u origin minha-pizza')}`,
+      ])}</div><div class="stack">
+        <div class="box"><h3>Um arquivo por pessoa</h3><p><code>pizza-SEU-USUARIO.md</code> reduz conflitos entre as receitas da turma. Confira se o diff inclui apenas seu arquivo.</p></div>
+        <div class="callout"><strong>Outro terminal?</strong> Defina <code>USUARIO</code> novamente. Se o VS Code pedir autorização para acessar o GitHub, aceite.</div>
+      </div></div>`},
+    {h:'Abra o PR para o projeto original', eyebrow:'Tarefa · parte 3 · verificação manual', body:`
+      <div class="cols s2"><div class="stack">${steps([
+        `<div class="t">Abra <a href="https://github.com/fsilva-alt/receitas-de-pizza/pulls" target="_blank" rel="noopener">Pull requests no original</a> → <strong>New pull request</strong> → <strong>compare across forks</strong>, se necessário.</div>`,
+        `<div class="t">Confira a origem e o destino:</div>${kv([
+          ['base repository','fsilva-alt/receitas-de-pizza'],['base','main'],
+          ['head repository','SEU-USUARIO/receitas-de-pizza'],['compare','minha-pizza'],
+        ], ['Campo','Valor'])}`,
+        `<div class="t">Revise o diff e clique em <strong>Create pull request</strong>. Escreva título e descrição explicando a receita e como conferiu o arquivo. Clique em <strong>Create pull request</strong> para enviar.</div>`,
+        `<div class="t">Compartilhe o link do PR com o professor ou monitor.</div>`,
+      ])}</div><div class="stack">
+        <div class="box lift"><h3>Concluído com o PR aberto</h3><p>Confira os remotos com <code>git remote -v</code> e a branch sincronizada, sem mudanças pendentes, com <code>git status</code>. O PR deve ir do seu fork para a <code>main</code> do original, com sua receita em <strong>Files changed</strong>.</p><p>A conferência é manual pelo link. O merge pode acontecer depois da revisão.</p></div>
+        <div class="box"><h3>Pedirem um ajuste?</h3><p>Edite na mesma branch, faça outro commit e rode <code>git push</code>. O PR será atualizado automaticamente.</p></div>
+      </div></div>`},
+    {h:'Depois do merge', eyebrow:'Missão extra', body:`
+      <div class="cols s2"><div class="stack">
+        <div class="box"><h3>Atualize sua main e seu fork</h3><p>Depois que o responsável integrar seu PR:</p>${cmd('$ git switch main\n$ git fetch upstream\n$ git merge --ff-only upstream/main\n$ git push origin main')}</div>
+        <div class="callout"><strong>Ao terminar</strong>, pare o Codespace para poupar as horas da sua franquia.</div>
+      </div><div class="stack">
+        <div class="box"><h3>O ciclo continua</h3><p>A <code>main</code> local e a do fork recebem as contribuições integradas ao original. Para sua próxima contribuição, crie uma nova branch a partir dessa base atualizada.</p></div>
+      </div></div>`},
+  ]});
+
 /* ---------- app: home + router ---------- */
 const ALL = [INTRO, ...D];
 const byKey = k => ALL.find(d => String(d.key) === String(k));
@@ -1371,13 +1450,13 @@ function renderHome(){
   document.getElementById('home').innerHTML = `
     <header class="hero">
       <div><h1>Git<span>no Codespaces</span></h1>
-        <p class="sub">Curso de Git para iniciantes, com 3 horas de aula ao vivo pelo Zoom e prática no Codespace individual de cada pessoa. Você faz os exercícios pelo navegador, sem instalar nada no computador. Escolha um desafio para abrir os slides.</p></div>
-      <div class="meta"><div><b>16</b>desafios</div><div><b>${total}</b>min de prática</div><div><b>3h</b>de aula</div></div>
+        <p class="sub">Curso de Git para iniciantes</p></div>
+      <div class="meta"><div><b>${D.length}</b>desafios</div><div><b>${total}</b>min de prática</div><div><b>3h</b>de aula</div></div>
     </header>
     <div class="legend"><span><span class="sw"></span>desafio</span><span><span class="sw el"></span>⏱ pode ficar para depois da aula se houver atraso</span><span>teclado: <kbd>→</kbd> <kbd>←</kbd> navegar · <kbd>Esc</kbd> voltar aqui · <kbd>F</kbd> tela cheia</span></div>
     <div class="grid">${tiles}</div>
     <footer class="homefoot">
-      <span>Ordem da aula: 0 → 15, com intervalo depois do 7.</span>
+      <span>Ordem da aula: 0 → 16, com intervalo depois do 7.</span>
       <span>Enunciados, gabarito e guia do professor: <a href="https://github.com/fsilva-alt/devops-git" target="_blank" rel="noopener">github.com/fsilva-alt/devops-git</a></span>
       <span>Leitura sugerida: <a href="https://git-scm.com/book/pt-br/v2" target="_blank" rel="noopener">Pro Git (pt-br)</a></span>
     </footer>`;
