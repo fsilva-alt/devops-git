@@ -3,7 +3,7 @@
 FROM ubuntu:24.04
 
 RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git ca-certificates zsh \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git ca-certificates zsh util-linux \
  && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -s /bin/bash aluno

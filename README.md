@@ -29,9 +29,11 @@ Prepare o ambiente **pelo menos um dia antes** para ter tempo de resolver eventu
    sh -c "$(curl -fsSL https://raw.githubusercontent.com/fsilva-alt/devops-git/main/install.sh)"
    ```
 
-   O instalador baixa o curso para `~/devops-git`, monta os laboratórios em `~/labs` e termina com a mensagem **"Curso de Git instalado com sucesso!"**.
+   O instalador baixa o curso para `~/devops-git`, monta os laboratórios em `~/labs` e prepara a autenticação para publicar nos desafios 14–16. Se ainda não houver um login válido salvo, ele mostra um código e abre o navegador: autorize o **GitHub CLI com a conta que usará no curso**. Se o navegador não abrir, acesse `https://github.com/login/device` e informe o código exibido. Ao terminar, aparece **"Curso de Git instalado com sucesso!"**.
 
-4. Abra um terminal novo (ou rode `source ~/.bashrc`) e teste:
+   Se o login for interrompido, rode o instalador novamente; ele preserva seus laboratórios e reutiliza um login salvo válido.
+
+4. Abra um terminal novo (ou rode `source ~/.bashrc` no bash / `source ~/.zshrc` no zsh) para carregar os comandos e a autenticação. No Codespaces, o bloco do curso nesses arquivos remove `GH_TOKEN` e `GITHUB_TOKEN` do terminal, permitindo usar o login salvo em vez do token automático limitado. Teste:
 
    ```bash
    check.sh 00
@@ -93,11 +95,13 @@ Dentro da pasta de um laboratório gerado pelo instalador, `check.sh` e `reset.s
 
 ## Para desenvolver o curso
 
-Os laboratórios são gerados por `scripts/labs.sh` e verificados por `scripts/checks.sh`. A suíte de testes em `tests/` roda em um container Ubuntu limpo e precisa de Docker. Ela executa o `install.sh` como um aluno faria e confere, para os desafios 0 a 15, se `check.sh` reprova o estado vazio, dá a dica correspondente a cada resposta errada e aprova a solução do gabarito. O desafio 16 é conferido manualmente no GitHub. Para rodar:
+Os laboratórios são gerados por `scripts/labs.sh` e verificados por `scripts/checks.sh`. A suíte de testes em `tests/` roda em um container Ubuntu limpo e precisa de Docker. Ela executa o `install.sh` como um aluno faria, simula o GitHub CLI para testar login, reutilização de credenciais e novos terminais sem acessar contas reais, e confere, para os desafios 0 a 15, se `check.sh` reprova o estado vazio, dá a dica correspondente a cada resposta errada e aprova a solução do gabarito. O desafio 16 é conferido manualmente no GitHub. Para rodar:
 
 ```bash
 tests/rodar.sh
 ```
+
+Em instalações automatizadas para testes locais, `CURSO_AUTH_GITHUB=0` pula a autenticação e dispensa o `gh`. Na instalação normal, o GitHub CLI é obrigatório (já vem no Codespaces); um primeiro login precisa de terminal interativo.
 
 ## Licença
 

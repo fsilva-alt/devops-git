@@ -18,6 +18,10 @@ No navegador e no terminal do seu Codespace. Você vai criar a pasta `~/labs/16-
 
 Tenha sua conta GitHub aberta no navegador e a identidade Git configurada, como no desafio 0.
 
+O `install.sh` já prepara a autenticação para publicar no fork. Se precisar recuperar o acesso, siga a [autenticação no Codespaces](../14-publique-no-github/README.md#autenticação-no-codespaces). Você pode fazer este desafio sem concluir o 15.
+
+**Está demonstrando com a conta `fsilva-alt`?** Use outra conta para praticar o fork: `fsilva-alt` é dona do projeto original e não pode criar um fork dele na própria conta.
+
 ## Tarefa
 
 ### 1. Faça o fork no GitHub
@@ -85,11 +89,13 @@ Confira no diff se a receita está completa e se apenas o arquivo esperado será
 
 ### 6. Publique a branch no seu fork
 
+Confira `git remote -v`: o destino do push (`origin`) deve ser **seu fork**. Poder clonar ou buscar um repositório público não comprova permissão de escrita.
+
 ```bash
 git push -u origin minha-pizza
 ```
 
-Se o VS Code pedir autorização para acessar o GitHub, aceite. Abra seu fork no navegador, selecione a branch `minha-pizza` e confira o arquivo publicado.
+Depois que o push terminar com sucesso, abra seu fork no navegador, selecione a branch `minha-pizza` e confira o arquivo publicado. Se houver 403, siga a [autenticação do desafio 14](../14-publique-no-github/README.md#autenticação-no-codespaces) e repita `git push -u origin minha-pizza`.
 
 ### 7. Abra o pull request para o projeto original
 
@@ -122,7 +128,7 @@ A conferência deste desafio é **manual**, no terminal e no GitHub:
 
 ## Dicas
 
-- **Erro 403 no push:** confira `git remote -v`. Se `origin` aponta para `fsilva-alt`, corrija com `git remote set-url origin "https://github.com/$USUARIO/receitas-de-pizza.git"`. Se já aponta para seu fork, confira a autorização de acesso no Codespace.
+- **Erro 403 no push:** confira `git remote -v`. Se `origin` aponta para `fsilva-alt`, confira o valor de `USUARIO` e corrija com `git remote set-url origin "https://github.com/$USUARIO/receitas-de-pizza.git"`. Se já aponta para seu fork, siga a [autenticação no Codespaces](../14-publique-no-github/README.md#autenticação-no-codespaces). Depois repita `git push -u origin minha-pizza`.
 - **Não aparece diferença no PR:** confira se selecionou `minha-pizza` em **compare** e se fez commit e push nessa branch.
 - **Pedido de ajuste na revisão:** edite o arquivo na mesma branch, faça outro commit e rode `git push`. O PR existente será atualizado automaticamente.
 

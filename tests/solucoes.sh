@@ -72,8 +72,39 @@ git -C "$ORIGEM" init -q -b main
 git -C "$ORIGEM" -c user.name=dev -c user.email=dev@exemplo.com add -A
 git -C "$ORIGEM" -c user.name=dev -c user.email=dev@exemplo.com commit -q -m "Versão em teste"
 
+# Simula o gh sem rede ou credenciais reais; falha se receber tokens do ambiente.
+export MOCK_GH_DIR="$(mktemp -d)"
+mkdir -p "$MOCK_GH_DIR/bin"
+cat > "$MOCK_GH_DIR/bin/gh" <<'GH'
+#!/bin/sh
+[ -z "${GH_TOKEN:-}" ] && [ -z "${GITHUB_TOKEN:-}" ] || exit 90
+printf '%s\n' "$*" >> "$MOCK_GH_DIR/chamadas"
+case "$*" in
+  'auth status --active --hostname github.com')
+    [ -f "$MOCK_GH_DIR/login" ] || exit 1
+    printf 'Conta ativa: aluna-teste (credencial salva em arquivo)\n'
+    ;;
+  'auth login --hostname github.com --git-protocol https --web')
+    [ -t 0 ] || exit 91
+    [ "${MOCK_GH_FALHAR_LOGIN:-0}" = 0 ] || exit 1
+    touch "$MOCK_GH_DIR/login"
+    ;;
+  'auth setup-git --hostname github.com')
+    [ -f "$MOCK_GH_DIR/login" ] || exit 92
+    ;;
+  *) exit 93 ;;
+esac
+GH
+chmod +x "$MOCK_GH_DIR/bin/gh"
+export PATH="$MOCK_GH_DIR/bin:$PATH"
+export GH_TOKEN=token-gh-simulado GITHUB_TOKEN=token-codespaces-simulado CODESPACES=true
+# O script dá ao login um terminal, como o sh -c executado pelo aluno.
+instalar_com_terminal() {
+  CURSO_REPO="$ORIGEM" script -qec 'sh "$CURSO_REPO/install.sh"' /dev/null </dev/null
+}
+
 cd /tmp   # o instalador tem de funcionar de qualquer pasta (ele faz cd $HOME)
-saida="$(CURSO_REPO="$ORIGEM" sh "$ORIGEM/install.sh" 2>&1)" \
+saida="$(instalar_com_terminal 2>&1)" \
   && conta_ok "install.sh roda com sh (POSIX) e termina sem erro" \
   || { conta_falha "install.sh falhou"; printf '%s\n' "$saida"; exit 1; }
 grep -q 'instalado com sucesso' <<<"$saida" && conta_ok "install.sh mostra a mensagem de sucesso" \
@@ -92,15 +123,63 @@ bash -ic 'command -v check.sh' >/dev/null 2>&1 && conta_ok "check.sh disponível
   || conta_falha "check.sh não está no PATH de um shell novo"
 [[ "$(git config --global pull.rebase)" == "false" ]] && conta_ok "setup.sh define pull.rebase=false" \
   || conta_falha "setup.sh não definiu pull.rebase"
+[[ -f "$MOCK_GH_DIR/login" ]] && grep -q '^auth setup-git' "$MOCK_GH_DIR/chamadas" \
+  && conta_ok "install.sh autentica sem os tokens automáticos e configura o Git" \
+  || conta_falha "install.sh não concluiu login e setup-git"
+bash -ic 'test -z "${GH_TOKEN:-}${GITHUB_TOKEN:-}"' >/dev/null 2>&1 \
+  && conta_ok "novo bash no Codespaces usa o login salvo" || conta_falha "bash manteve os tokens automáticos"
+zsh -ic 'test -z "${GH_TOKEN:-}${GITHUB_TOKEN:-}"' >/dev/null 2>&1 \
+  && conta_ok "novo zsh no Codespaces usa o login salvo" || conta_falha "zsh manteve os tokens automáticos"
+CODESPACES=false bash -ic 'test "$GH_TOKEN" = token-gh-simulado && test "$GITHUB_TOKEN" = token-codespaces-simulado' >/dev/null 2>&1 \
+  && conta_ok "fora do Codespaces, variáveis de autenticação são preservadas" \
+  || conta_falha "bloco do curso removeu tokens fora do Codespaces"
 
-# Rodar de novo: atualiza sem apagar nada e sem duplicar o PATH
+# Simula o bloco de uma instalação antiga; o update deve acrescentar autenticação.
+sed -i '/^if .*CODESPACES.*unset GH_TOKEN GITHUB_TOKEN/d' "$HOME/.bashrc"
+printf '\n# configuração pessoal preservada\n' >> "$HOME/.bashrc"
+
+# Rodar de novo: reutiliza o login salvo em arquivo, sem terminal ou novo login.
 touch "$HOME/labs/01-meu-primeiro-repositorio/marca"
-saida="$(CURSO_REPO="$ORIGEM" sh "$ORIGEM/install.sh" 2>&1)" && grep -q 'Atualizando' <<<"$saida" \
+saida="$(CURSO_REPO="$ORIGEM" sh "$ORIGEM/install.sh" </dev/null 2>&1)" && grep -q 'Atualizando' <<<"$saida" \
   && conta_ok "install.sh rodado de novo atualiza em vez de clonar" || conta_falha "segunda execução do install.sh"
 [[ -f "$HOME/labs/01-meu-primeiro-repositorio/marca" ]] && conta_ok "segunda execução preserva os labs" \
   || conta_falha "segunda execução apagou os labs"
 (( $(grep -c '# >>> curso de git >>>' "$HOME/.bashrc") == 1 )) && conta_ok "PATH não duplicado no ~/.bashrc" \
   || conta_falha "bloco do PATH duplicado no ~/.bashrc"
+(( $(grep -c '^auth login' "$MOCK_GH_DIR/chamadas") == 1 )) \
+  && conta_ok "reinstalação reutiliza login sem depender de keyring" || conta_falha "reinstalação pediu outro login"
+(( $(grep -c 'unset GH_TOKEN GITHUB_TOKEN' "$HOME/.zshrc") == 1 )) \
+  && conta_ok "autenticação não duplicada no ~/.zshrc" || conta_falha "autenticação duplicada no ~/.zshrc"
+bash -ic 'test -z "${GH_TOKEN:-}${GITHUB_TOKEN:-}"' >/dev/null 2>&1 \
+  && grep -q '^# configuração pessoal preservada$' "$HOME/.bashrc" \
+  && conta_ok "instalação antiga recebe autenticação preservando configuração pessoal" \
+  || conta_falha "atualização do bloco antigo falhou"
+
+# Login indisponível não pode resultar em uma falsa mensagem de sucesso.
+rm "$MOCK_GH_DIR/login"
+if saida="$(CURSO_REPO="$ORIGEM" sh "$ORIGEM/install.sh" </dev/null 2>&1)"; then
+  conta_falha "instalação sem login nem terminal deveria falhar"
+elif grep -q 'terminal interativo' <<<"$saida" && ! grep -q 'instalado com sucesso' <<<"$saida"; then
+  conta_ok "sem terminal e sem login salvo, instalador explica como continuar"
+else
+  conta_falha "instalador falhou sem explicar a falta de terminal"
+fi
+if saida="$(MOCK_GH_FALHAR_LOGIN=1 instalar_com_terminal 2>&1)"; then
+  conta_falha "instalador aprovou login que falhou"
+elif grep -q 'login no GitHub não foi concluído' <<<"$saida" && ! grep -q 'instalado com sucesso' <<<"$saida"; then
+  conta_ok "falha no login não mostra sucesso e orienta repetir instalação"
+else
+  conta_falha "falha de login sem diagnóstico correto"
+fi
+chamadas_antes="$(wc -l < "$MOCK_GH_DIR/chamadas")"
+saida="$(CURSO_AUTH_GITHUB=0 CURSO_REPO="$ORIGEM" sh "$ORIGEM/install.sh" </dev/null 2>&1)" \
+  && [[ "$(wc -l < "$MOCK_GH_DIR/chamadas")" == "$chamadas_antes" ]] \
+  && grep -q 'autenticação pulada' <<<"$saida" \
+  && conta_ok "CURSO_AUTH_GITHUB=0 permite testes locais sem chamar gh" \
+  || conta_falha "opção de pular autenticação falhou"
+saida="$(instalar_com_terminal 2>&1)" && [[ -f "$HOME/labs/01-meu-primeiro-repositorio/marca" ]] \
+  && conta_ok "repetir instalação recupera o login e preserva os laboratórios" \
+  || conta_falha "instalador não recuperou o login"
 rm -f "$HOME/labs/01-meu-primeiro-repositorio/marca"
 
 # Daqui em diante, tudo usa a instalação feita pelo aluno

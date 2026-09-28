@@ -159,33 +159,48 @@ git push
 
 ## Desafio 14 — Publique no GitHub
 
-No GitHub, clique em **+ → New repository** e dê ao repositório o nome `livro-de-receitas`. Deixe as opções de README, .gitignore e licença desmarcadas e clique em **Create repository**. Depois, no terminal:
+O `install.sh` já prepara a autenticação pelo GitHub CLI. Use um terminal novo após instalar. No GitHub, clique em **+ → New repository** e dê ao repositório o nome `livro-de-receitas`. Deixe as opções de README, .gitignore e licença desmarcadas e clique em **Create repository**. Depois, no terminal:
 
 ```bash
 cd ~/labs/14-publique-no-github
-printf '# Aprendizados\n\n- ...\n- ...\n- ...\n' > aprendizados.md
+code aprendizados.md
+# escreva três aprendizados e salve; o nome é no plural
 git add aprendizados.md
+git diff --staged
 git commit -m "Adiciona meus aprendizados do curso"
 git remote add origin https://github.com/<usuario>/livro-de-receitas.git
-git push -u origin main                             # aceite a autorização do GitHub, se aparecer
+git push -u origin main
+check.sh 14
 ```
+
+Se houver 403, confira a URL, siga a [recuperação da autenticação](../exercises/14-publique-no-github/README.md#autenticação-no-codespaces) e repita `git push -u origin main`. Um push rejeitado não configura o upstream. Se o aluno já commitou `aprendizado.md`, no singular, siga a [correção do nome e conteúdo](../exercises/14-publique-no-github/README.md#já-fez-commit-de-aprendizadomd-no-singular).
 
 ## Desafio 15 — Seu primeiro pull request
 
-Na mesma pasta do desafio 14:
+Na mesma pasta do desafio 14, depois de `check.sh 14` aprovar, reutilizando o login preparado pelo instalador.
 
 ```bash
+cd ~/labs/14-publique-no-github
 git switch -c mais-um-aprendizado
-echo "- ..." >> aprendizados.md
-git commit -am "Adiciona um quarto aprendizado"
+code aprendizados.md
+# acrescente o quarto aprendizado e salve
+git add aprendizados.md
+git diff --staged
+git commit -m "Adiciona um quarto aprendizado"
 git push -u origin mais-um-aprendizado
-# no GitHub: Compare & pull request → Create pull request → Merge pull request → Confirm merge
+# no próprio repositório: base main, compare mais-um-aprendizado; revise o diff
+# Create pull request → Create a merge commit → Merge pull request → Confirm merge
 git switch main
 git pull
 git branch -d mais-um-aprendizado
+check.sh 15
 ```
 
+Confira o PR como **Merged** no GitHub. Em caso de 403, refaça a autenticação e repita o push da branch `mais-um-aprendizado` antes de abrir o PR.
+
 ## Desafio 16 — Contribua com um fork
+
+Use uma conta diferente de `fsilva-alt` para testar o fork. O login já foi preparado pelo instalador, mesmo que o aluno tenha pulado os desafios 14 e 15.
 
 No GitHub, abra [fsilva-alt/receitas-de-pizza](https://github.com/fsilva-alt/receitas-de-pizza), clique em **Fork**, selecione sua conta como **Owner**, mantenha o nome e clique em **Create fork**. Depois, no terminal, substitua `seu-usuario` pelo usuário do aluno:
 
@@ -208,6 +223,8 @@ git commit -m "Adiciona minha receita de pizza"
 git push -u origin minha-pizza
 git status
 ```
+
+Se o push retornar 403, confira se `origin` aponta para o fork do aluno, refaça a autenticação e repita `git push -u origin minha-pizza`. O clone de um repositório público pode funcionar mesmo sem permissão para publicar.
 
 No repositório original, abra **Pull requests → New pull request → compare across forks**. Confira:
 

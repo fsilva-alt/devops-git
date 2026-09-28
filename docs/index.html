@@ -472,6 +472,7 @@ D.push({n:0, key:'00', title:'Configure sua identidade', mod:'Abertura', time:3,
           ['init.defaultBranch=main','repositórios novos começam na branch <code>main</code>'],
           ['core.editor=code --wait','quando o Git precisa de uma mensagem, abre o VS Code em vez do Vim'],
           ['pull.rebase=false','<code>git pull</code> integra com um merge, como vamos aprender'],
+          ['gh auth login / setup-git','login pelo navegador e credencial para publicar nos desafios 14–16'],
         ], ['Config','Para quê'])}</div>
       </div></div>`},
     {h:'Comandos & documentação', eyebrow:'Referência', body:`
@@ -1269,7 +1270,7 @@ D.push({n:14, key:'14', title:'Publique no GitHub', mod:'Módulo 6 · Remotos', 
         <div class="cols">
           <div class="box lift"><h3>O -u (--set-upstream)</h3><p>Associa a <code>main</code> local à <code>main</code> do <code>origin</code>. Depois disso, você pode usar <code>git push</code> e <code>git pull</code> sem informar remoto e branch, e <code>git status</code> passa a mostrar ahead/behind. Essa configuração é feita uma vez por branch.</p></div>
           <div class="box"><h3>O nome origin</h3><p>O comando <code>clone</code> usa "origin" por padrão, mas você pode escolher outro nome. Consulte a URL com <code>git remote -v</code>; se precisar corrigi-la, use <code style="white-space:normal">git remote set-url origin &lt;url-certa&gt;</code>.</p></div>
-          <div class="box"><h3>HTTPS no Codespace</h3><p>A autenticação é feita pelo próprio Codespace: se o VS Code pedir para autorizar acesso ao GitHub, aceite. Fora dele, seria um token ou chave SSH.</p></div>
+          <div class="box"><h3>Login já preparado</h3><p>O <code>install.sh</code> autentica pelo navegador e configura o Git para usar o login do <code>gh</code>. Abra um terminal novo após instalar. <code>user.name</code> e <code>user.email</code> identificam o autor dos commits; a autenticação permite publicar.</p></div>
         </div>
       </div>`},
     {h:'Comandos & documentação', eyebrow:'Referência', body:`
@@ -1285,17 +1286,26 @@ D.push({n:14, key:'14', title:'Publique no GitHub', mod:'Módulo 6 · Remotos', 
       </div>`},
     {h:'O desafio', eyebrow:'Tarefa · 5 min', body:`
       <div class="cols s2"><div class="stack">${steps([
-        `<div class="t">Crie <code>aprendizados.md</code> com <strong>três</strong> coisas que você aprendeu hoje e faça o commit:</div>${cmd('$ git add aprendizados.md\n$ git commit -m "Adiciona meus aprendizados do curso"')}`,
+        `<div class="t">Abra <code>code aprendizados.md</code>, escreva <strong>três</strong> aprendizados e salve. O nome é no <strong>plural</strong>. Confira e faça o commit:</div>${cmd('$ git status\n$ git add aprendizados.md\n$ git diff --staged\n$ git commit -m "Adiciona meus aprendizados do curso"')}`,
         `<div class="t">No GitHub, clique em <strong>+ → New repository</strong> e use o nome <code>livro-de-receitas</code>. O repositório precisa estar vazio: <strong>não</strong> marque README, .gitignore ou licença. Clique em <strong>Create repository</strong>.</div>`,
         `<div class="t">Copie a URL e ligue o remoto:</div>${cmd('$ git remote add origin https://github.com/<seu-usuario>/livro-de-receitas.git\n$ git remote -v')}`,
-        `<div class="t">Publique (aceite a autorização, se o VS Code pedir):</div>${cmd('$ git push -u origin main')}`,
+        `<div class="t">Publique com o login preparado pelo instalador e aguarde a confirmação do envio:</div>${cmd('$ git push -u origin main')}`,
         `<div class="t">Atualize a página no navegador e confira as receitas, <code>aprendizados.md</code> e o commit. Depois consulte o estado local:</div>${cmd('$ git status          # up to date with origin/main')}`,
       ])}</div><div class="stack">
-        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 14')}<p style="margin-top:10px;color:var(--muted)">Aprova com HEAD = origin/main e upstream definido.</p></div>
+        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 14')}<p style="margin-top:10px;color:var(--muted)">Aprova com HEAD = origin/main e upstream definido. Confira também os três aprendizados na página do GitHub.</p></div>
         <div class="box soft"><h3>Se der errado</h3>${kv([
-          ['403 / pede senha','aceitar a autorização do GitHub no VS Code; conferir <code>git remote -v</code> (repositório da própria conta). Alternativa: Source Control → Publish to GitHub'],
+          ['403 / pede senha','conferir <code>git remote -v</code>, <a href="#/d/14/5">recuperar a autenticação</a> e repetir <code>git push -u origin main</code>'],
           ['criado com README','push rejeitado: <code>git pull --allow-unrelated-histories origin main</code> e depois <code>git push -u origin main</code>, ou criar outro repositório vazio'],
         ], ['Sintoma','Solução'])}</div>
+      </div></div>`},
+    {h:'Recuperar o acesso ao GitHub', eyebrow:'Referência · desafios 14–16', body:`
+      <div class="cols s2"><div class="stack">
+        <div class="box"><h3>403 mesmo na sua conta?</h3><p>O token automático do Codespaces pode não permitir escrita no novo repositório ou fork. O instalador já prepara outro login; para recuperar o acesso no terminal atual:</p>${cmd('$ unset GH_TOKEN GITHUB_TOKEN\n$ gh auth login --hostname github.com --git-protocol https --web\n# conclua a autorização no navegador\n$ gh auth setup-git --hostname github.com\n$ gh auth status --active --hostname github.com')}</div>
+        <div class="callout">Confira a conta ativa e a URL de <code>origin</code>. Depois repita o <strong>push da branch do desafio</strong>. Use <code>gh auth status</code> para conferir o login com o token mascarado.</div>
+      </div><div class="stack">
+        <div class="box"><h3>Novo terminal</h3><p>O bloco do curso no <code>.bashrc</code>/<code>.zshrc</code> remove os tokens automáticos no Codespaces para reutilizar o login salvo. Abra um terminal novo após instalar. Instalação antiga? Rode o <code>install.sh</code> novamente.</p></div>
+        <div class="box"><h3>O que o estado local diz</h3><p><code>working tree clean</code> indica que não há mudanças locais pendentes. Confira o envio e os arquivos no GitHub. Se o primeiro push falhou, repita com <code>-u</code> para configurar o upstream.</p></div>
+        <div class="box soft"><h3>Passo a passo</h3>${docs([{t:'Autenticação e correção de aprendizados.md',href:'https://github.com/fsilva-alt/devops-git/blob/main/exercises/14-publique-no-github/README.md#autenticação-no-codespaces'}])}</div>
       </div></div>`},
   ]});
 
@@ -1304,7 +1314,7 @@ D.push({n:15, key:'15', title:'Seu primeiro pull request', mod:'Módulo 7 · Flu
   slides:[
     {h:'Seu primeiro pull request', body: cover({n:15,time:7,el:true,mod:'Módulo 7 · Fluxo no GitHub',cmds:['git switch -c','git push -u origin <branch>','Compare & pull request','Merge pull request','git pull','git branch -d']},
       'Percorrer o fluxo que a maioria das equipes usa: <strong>branch → push → pull request → merge na web → pull local</strong>.',
-      cmd('$ cd ~/labs/14-publique-no-github') + '<p style="margin-top:10px;color:var(--muted)">A mesma pasta do desafio 14, já ligada ao seu repositório no GitHub.</p>')},
+      cmd('$ cd ~/labs/14-publique-no-github\n$ check.sh 14') + '<p style="margin-top:10px;color:var(--muted)">Conclua o desafio 14: a mesma pasta, com <code>aprendizados.md</code> publicado e a main acompanhando origin/main. O login preparado pelo instalador continua valendo.</p>')},
     {h:'O fluxo', eyebrow:'Conceito · pull request', body:`
       <div class="stack">
         <div class="flow">
@@ -1340,13 +1350,13 @@ D.push({n:15, key:'15', title:'Seu primeiro pull request', mod:'Módulo 7 · Flu
       </div>`},
     {h:'O desafio', eyebrow:'Tarefa · 7 min · pode ficar para depois da aula', body:`
       <div class="cols s2"><div class="stack">${steps([
-        `<div class="t">Crie uma branch, acrescente um quarto aprendizado em <code>aprendizados.md</code> e faça o commit:</div>${cmd('$ git switch -c mais-um-aprendizado\n# edite o arquivo\n$ git commit -am "Adiciona um quarto aprendizado"')}`,
-        `<div class="t">Publique a branch (o <code>-u</code> liga a local à remota):</div>${cmd('$ git push -u origin mais-um-aprendizado')}`,
-        `<div class="t">Abra o link do PR exibido no terminal ou clique em <strong>Compare &amp; pull request</strong> no GitHub. Escreva um título e clique em <strong>Create pull request</strong>. Na página do PR, clique em <strong>Merge pull request</strong> e depois em <strong>Confirm merge</strong>.</div>`,
+        `<div class="t">Crie uma branch, acrescente um quarto aprendizado em <code>aprendizados.md</code>, salve e faça o commit:</div>${cmd('$ git switch -c mais-um-aprendizado\n$ code aprendizados.md\n$ git add aprendizados.md\n$ git diff --staged\n$ git commit -m "Adiciona um quarto aprendizado"')}`,
+        `<div class="t">Publique a branch (o <code>-u</code> liga a local à remota). Se houver 403, <a href="#/d/14/5">recupere a autenticação</a> e repita este comando:</div>${cmd('$ git push -u origin mais-um-aprendizado')}`,
+        `<div class="t">Após o envio, abra <strong>Compare &amp; pull request</strong> no seu repositório: <strong>base: main</strong>, <strong>compare: mais-um-aprendizado</strong>. Revise o diff, escreva um título e clique em <strong>Create pull request</strong>. Escolha <strong>Create a merge commit</strong> → <strong>Merge pull request</strong> → <strong>Confirm merge</strong>.</div>`,
         `<div class="t">O merge aconteceu no GitHub. Sincronize a <code>main</code> local:</div>${cmd('$ git switch main\n$ git pull\n$ git log --oneline --graph -5')}`,
         `<div class="t">Apague a cópia local da branch (o GitHub oferece um botão para a remota):</div>${cmd('$ git branch -d mais-um-aprendizado')}`,
       ])}</div><div class="stack">
-        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 15')}<p style="margin-top:10px;color:var(--muted)">Aprova com a <code>main</code> sincronizada e a branch apagada.</p></div>
+        <div class="box"><h3>Verificação</h3>${cmd('$ check.sh 15')}<p style="margin-top:10px;color:var(--muted)">Use o número 15: sem número, essa pasta verifica o 14. Confira a main sincronizada, a branch apagada, o quarto aprendizado e o PR como <strong>Merged</strong> no GitHub.</p></div>
         <div class="box soft"><h3>Missão extra · revisão de código</h3><p>Abra um segundo PR e, antes do merge, deixe um comentário numa linha do diff, na aba <strong>Files changed</strong>.</p></div>
         <div class="callout warn"><strong>⏱ Pode ficar para depois da aula.</strong> Se houver atraso, deixe este desafio como tarefa de casa e avance para o desafio 16. Ao concluir este PR, confira com <code>check.sh 15</code>.</div>
       </div></div>`},
@@ -1358,7 +1368,7 @@ D.push({n:16, key:'16', title:'Contribua com um fork', mod:'Módulo 7 · Fluxo n
   slides:[
     {h:'Contribua com um fork', body: cover({n:16,time:15,el:false,mod:'Módulo 7 · Fluxo no GitHub',verificacao:'Manual: link do PR no projeto original',cmds:['Fork','git clone','git remote add upstream','git push -u origin minha-pizza','pull request']},
       'Adicionar uma receita a <a href="https://github.com/fsilva-alt/receitas-de-pizza" target="_blank" rel="noopener">fsilva-alt/receitas-de-pizza</a>: <strong>fork → clone → branch → commit → push → pull request</strong>.',
-      '<p>No navegador e no terminal do Codespace. Você cria <code>~/labs/16-contribua-com-um-fork</code> com <code>git clone</code>.</p>')},
+      '<p>No navegador e no terminal do Codespace. Você cria <code>~/labs/16-contribua-com-um-fork</code> com <code>git clone</code>. O login foi preparado pelo <code>install.sh</code>; pode fazer este desafio sem concluir o 15.</p>')},
     {h:'Fork, clone e os dois remotos', eyebrow:'Conceito', body:`
       <div class="stack">
         <div class="flow">
@@ -1399,6 +1409,7 @@ D.push({n:16, key:'16', title:'Contribua com um fork', mod:'Módulo 7 · Fluxo n
       ])}</div><div class="stack">
         <div class="box"><h3>Confira os endereços</h3><p><code>origin</code> → seu fork, onde você publica.</p><p><code>upstream</code> → projeto original, de onde você busca atualizações.</p></div>
         <div class="callout"><strong>Já tem um fork?</strong> Abra a cópia existente na sua conta. A página deve mostrar “forked from fsilva-alt/receitas-de-pizza”.</div>
+        <div class="callout"><strong>Demonstração com fsilva-alt:</strong> use outra conta para testar o fork. O dono do projeto não pode criar um fork dele na própria conta.</div>
       </div></div>`},
     {h:'Escreva e publique sua receita', eyebrow:'Tarefa · parte 2', body:`
       <div class="cols s2"><div class="stack">${steps([
@@ -1408,7 +1419,7 @@ D.push({n:16, key:'16', title:'Contribua com um fork', mod:'Módulo 7 · Fluxo n
         `<div class="t">Publique no seu fork e confira a branch no GitHub:</div>${cmd('$ git push -u origin minha-pizza')}`,
       ])}</div><div class="stack">
         <div class="box"><h3>Um arquivo por pessoa</h3><p><code>pizza-SEU-USUARIO.md</code> reduz conflitos entre as receitas da turma. Confira se o diff inclui apenas seu arquivo.</p></div>
-        <div class="callout"><strong>Outro terminal?</strong> Defina <code>USUARIO</code> novamente. Se o VS Code pedir autorização para acessar o GitHub, aceite.</div>
+        <div class="callout"><strong>Outro terminal?</strong> Defina <code>USUARIO</code> novamente. Se o push der 403, confira se <code>origin</code> aponta para seu fork e <a href="#/d/14/5">recupere a autenticação</a>. Repita <code>git push -u origin minha-pizza</code>. Conseguir clonar não comprova permissão para publicar.</div>
       </div></div>`},
     {h:'Abra o PR para o projeto original', eyebrow:'Tarefa · parte 3 · verificação manual', body:`
       <div class="cols s2"><div class="stack">${steps([
